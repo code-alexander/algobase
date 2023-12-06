@@ -1,0 +1,28 @@
+default_language_version:
+  python: python3.10
+
+default_stages: [commit, push]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+        exclude: LICENSE
+
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff-check
+        entry: poetry run ruff check --fix --config pyproject.toml
+        types: [python]
+        language: system
+
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: ruff-format
+        entry: poetry run ruff format --config pyproject.toml
+        types: [python]
+        language: system

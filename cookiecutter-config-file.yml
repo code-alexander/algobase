@@ -1,0 +1,13 @@
+# This file contains values from Cookiecutter
+
+default_context:
+  project_name: "humblepy"
+  project_description: "A type-safe Python library for interacting with assets on Algorand."
+  organization: "humblepy"
+  license: "Apache Software License 2.0"
+  minimal_python_version: 3.10
+  github_name: "code-alexander"
+  email: "alexandercodes@proton.me"
+  version: "0.1.0"
+  line_length: "88"
+  create_example_template: "cli"
