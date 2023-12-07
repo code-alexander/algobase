@@ -1,9 +1,11 @@
 """Functions for data validation."""
 
-import typing
+from typing import overload
 
-import algosdk
-import pydantic_core
+from algosdk.encoding import is_valid_address
+from pydantic_core import Url
+
+from humblepy.utils.read import read_ipfs_gateways
 
 
 def validate_address(value: str) -> str:
@@ -18,30 +20,26 @@ def validate_address(value: str) -> str:
     Returns:
         str: The value passed in.
     """
-    if not algosdk.encoding.is_valid_address(value):
+    if not is_valid_address(value):
         raise ValueError(f"'{value}' is not a valid Algorand address.")
     return value
 
 
-@typing.overload  # pragma: no cover
+@overload  # pragma: no cover
 def validate_encoded_length(value: str, max_length: int) -> str:
     ...
 
 
-@typing.overload  # pragma: no cover
-def validate_encoded_length(
-    value: pydantic_core.Url, max_length: int
-) -> pydantic_core.Url:
+@overload  # pragma: no cover
+def validate_encoded_length(value: Url, max_length: int) -> Url:
     ...
 
 
-def validate_encoded_length(
-    value: str | pydantic_core.Url, max_length: int
-) -> str | pydantic_core.Url:
+def validate_encoded_length(value: str | Url, max_length: int) -> str | Url:
     """Checks that the value is not longer than `max_length` when encoded in UTF-8.
 
     Args:
-        value (str | pydantic_core.Url): The value to check.
+        value (str | Url): The value to check.
         max_length (int): The maximum length of the value when encoded in UTF-8.
 
     Raises:
@@ -54,3 +52,21 @@ def validate_encoded_length(
     if len(url.encode("utf-8")) > max_length:
         raise ValueError(f"'{value}' is > {max_length} bytes when encoded in UTF-8.")
     return value
+
+
+def validate_not_ipfs_gateway(url: Url) -> Url:
+    """Checks that the URL host is not a known public IPFS gateway.
+
+    Args:
+        url (Url): The URL to check.
+
+    Raises:
+        ValueError: If the URL host is a known public IPFS gateway.
+
+    Returns:
+        Url: The URL passed in.
+    """
+    gateways = read_ipfs_gateways()
+    if any(Url(gateway).host == url.host for gateway in gateways):
+        raise ValueError(f"'{url.host}' is an IPFS gateway.")
+    return url
