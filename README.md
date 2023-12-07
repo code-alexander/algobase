@@ -35,8 +35,8 @@ Expect breaking changes.
 
 ### Development features
 
-- Supports `Python 3.10` and higher.
-- [`Poetry`](https://python-poetry.org/) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/code-alexander/humblepy/blob/main/pyproject.toml) and [`setup.cfg`](https://github.com/code-alexander/humblepy/blob/main/setup.cfg).
+- Supports `Python 3.11` and higher.
+- [`Poetry`](https://python-poetry.org/) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/code-alexander/humblepy/blob/main/pyproject.toml).
 - Automatic codestyle with [`ruff`](https://github.com/astral-sh/ruff), [`pydocstyle`](https://github.com/PyCQA/pydocstyle) and [`pyupgrade`](https://github.com/asottile/pyupgrade).
 - Ready-to-use [`pre-commit`](https://pre-commit.com/) hooks with code-formatting.
 - Type checks with [`mypy`](https://mypy.readthedocs.io); security checks with [`safety`](https://github.com/pyupio/safety) and [`bandit`](https://github.com/PyCQA/bandit)
@@ -129,7 +129,7 @@ make pre-commit-install
 <summary>3. Codestyle</summary>
 <p>
 
-Automatic formatting uses `pyupgrade`, `isort` and `black`.
+Automatic formatting uses `ruff`.
 
 ```bash
 make codestyle
@@ -144,7 +144,7 @@ Codestyle checks only, without rewriting files:
 make check-codestyle
 ```
 
-> Note: `check-codestyle` uses `isort` and `black` libraries.
+> Note: `check-codestyle` uses `ruff` libraries.
 
 Update all dev libraries to the latest version using one comand
 
