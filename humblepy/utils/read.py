@@ -1,8 +1,7 @@
 """Functions for reading and caching reference data files."""
 
-from functools import cache
-
 import tomllib
+from functools import cache
 
 
 @cache

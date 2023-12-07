@@ -35,7 +35,7 @@ Expect breaking changes.
 
 ### Development features
 
-- Supports `Python 3.10` and higher.
+- Supports `Python 3.11` and higher.
 - [`Poetry`](https://python-poetry.org/) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/code-alexander/humblepy/blob/main/pyproject.toml).
 - Automatic codestyle with [`ruff`](https://github.com/astral-sh/ruff), [`pydocstyle`](https://github.com/PyCQA/pydocstyle) and [`pyupgrade`](https://github.com/asottile/pyupgrade).
 - Ready-to-use [`pre-commit`](https://pre-commit.com/) hooks with code-formatting.
