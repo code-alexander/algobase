@@ -1,6 +1,5 @@
 """Unit tests for the humblepy.utils.read functions."""
 
-
 from humblepy.utils.read import read_ipfs_gateways
 
 
