@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "humblepy"
-version = "0.2.0"
+version = "0.3.0"
 description = "A type-safe Python library for interacting with assets on Algorand."
 readme = "README.md"
 authors = ["humblepy <alexandercodes@proton.me>"]
