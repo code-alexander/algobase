@@ -1,4 +1,4 @@
-"""Data validation for Algorand Standard Assets (ASAs)."""
+"""A Pydantic model for Algorand Standard Asset parameters."""
 
 from pydantic import (
     BaseModel,
@@ -17,7 +17,7 @@ from humblepy.types.annotated import (
 )
 
 
-class Asa(BaseModel):
+class AssetParams(BaseModel):
     """A Pydantic model for Algorand Standard Assets (ASAs)."""
 
     model_config = ConfigDict(frozen=True)
