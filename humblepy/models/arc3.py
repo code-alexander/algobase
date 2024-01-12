@@ -49,8 +49,10 @@ class Arc3Properties(BaseModel):
     """
 
     model_config = ConfigDict(frozen=True, extra="allow")
-
-    __pydantic_extra__: dict[str, str | int | float | dict | list]
+    # Struggling to get recursive type definition working here.
+    # Have defined `Arc3NonTraitProperties` in humblepy/types/annotated.py
+    # but it doesn't work as an annotation for __pydantic_extra__.
+    __pydantic_extra__: dict[str, str | int | float | dict | list]  # type: ignore
     traits: Arc16Traits | None = Field(
         default=None,
         description="Traits (attributes) that can be used to calculate things like rarity. Values may be strings or numbers.",

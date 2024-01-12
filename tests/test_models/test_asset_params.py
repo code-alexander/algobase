@@ -33,7 +33,7 @@ class TestAssetParams:
         "clawback": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
     }
 
-    def test_valid_dict(self):
+    def test_valid_dict(self) -> None:
         """Test that validation succeeds when passed a valid dictionary."""
         assert AssetParams.model_validate(self.valid_dict)
 
@@ -52,12 +52,12 @@ class TestAssetParams:
             ("clawback", AlgorandAddress | None),
         ],
     )
-    def test_annotated_types(self, field: str, expected_type: type):
+    def test_annotated_types(self, field: str, expected_type: type) -> None:
         """Test that annotated types are correct."""
         assert AssetParams.model_fields[field].rebuild_annotation() == expected_type
 
     @pytest.mark.parametrize("field", ["total"])
-    def test_mandatory_fields(self, field: str):
+    def test_mandatory_fields(self, field: str) -> None:
         """Test that validation fails if a mandatory field is missing."""
         test_dict = self.valid_dict.copy()
         test_dict.pop(field)
@@ -79,14 +79,14 @@ class TestAssetParams:
             ("clawback", None),
         ],
     )
-    def test_default_values(self, field: str, expected: int | bool | None):
+    def test_default_values(self, field: str, expected: int | bool | None) -> None:
         """Test that non-mandatory fields have the correct default values."""
         test_dict = self.valid_dict.copy()
         test_dict.pop(field)
         assert getattr(AssetParams.model_validate(test_dict), field) == expected
 
     @pytest.mark.parametrize("x", [1.0, "1"])
-    def test_total_invalid_strict(self, x: float | str):
+    def test_total_invalid_strict(self, x: float | str) -> None:
         """Test that `total` raises an error in strict mode if passed a float or a string."""
         test_dict = self.valid_dict.copy()
         test_dict["total"] = x
@@ -94,14 +94,16 @@ class TestAssetParams:
             AssetParams.model_validate(test_dict, strict=True)
 
     @pytest.mark.parametrize("x, expected", [(1.0, 1), ("1", 1)])
-    def test_total_valid_non_strict_coerced(self, x: float | str, expected: int):
+    def test_total_valid_non_strict_coerced(
+        self, x: float | str, expected: int
+    ) -> None:
         """Test that `total` does not raise an error in non-strict mode if passed a float or a string."""
         test_dict = self.valid_dict.copy()
         test_dict["total"] = x
         assert AssetParams.model_validate(test_dict, strict=False).total == expected
 
     @pytest.mark.parametrize("x", [1, 1.0, "True", "true"])
-    def test_default_frozen_invalid_strict(self, x: int | float | str):
+    def test_default_frozen_invalid_strict(self, x: int | float | str) -> None:
         """Test that `default_frozen` raises an error in strict mode if passed a non-boolean type."""
         test_dict = self.valid_dict.copy()
         test_dict["default_frozen"] = x
@@ -121,7 +123,9 @@ class TestAssetParams:
             ("false", False),
         ],
     )
-    def test_default_frozen_non_strict(self, x: int | float | str, expected: bool):
+    def test_default_frozen_non_strict(
+        self, x: int | float | str, expected: bool
+    ) -> None:
         """Test that `default_frozen` does not raise an error in non-strict mode if passed a valid non-boolean type value."""
         test_dict = self.valid_dict.copy()
         test_dict["default_frozen"] = x

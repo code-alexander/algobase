@@ -89,13 +89,21 @@ Arc3LocalizedUrl = Annotated[
         )
     ),
 ]
-
 Arc3Sri = Annotated[str, AfterValidator(validate_arc3_sri)]
 Arc3Color = Annotated[str, Len(6, 6), AfterValidator(validate_hex)]
 Arc3NonTraitProperties = TypeAliasType(
     "Arc3NonTraitProperties",
     Annotated[
-        dict[str, Union[str, int, float, list, "Arc3NonTraitProperties"]],
+        dict[
+            str,
+            Union[
+                str,
+                int,
+                float,
+                list[Union[str, int, float, "Arc3NonTraitProperties"]],  # type: ignore
+                "Arc3NonTraitProperties",  # type: ignore
+            ],
+        ],
         AfterValidator(partial(validate_not_in, element="traits")),
     ],
 )

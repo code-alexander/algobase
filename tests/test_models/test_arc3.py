@@ -32,7 +32,7 @@ class TestArc3Localization:
         },
     }
 
-    def test_valid_dict(self):
+    def test_valid_dict(self) -> None:
         """Test that validation succeeds when passed a valid dictionary."""
         assert Arc3Localization.model_validate(self.valid_dict)
 
@@ -45,14 +45,14 @@ class TestArc3Localization:
             ("integrity", dict[UnicodeLocale, Arc3Sri] | None),
         ],
     )
-    def test_annotated_types(self, field: str, expected_type: type):
+    def test_annotated_types(self, field: str, expected_type: type) -> None:
         """Test that annotated types are correct."""
         assert (
             Arc3Localization.model_fields[field].rebuild_annotation() == expected_type
         )
 
     @pytest.mark.parametrize("field", ["uri", "default", "locales"])
-    def test_mandatory_fields(self, field: str):
+    def test_mandatory_fields(self, field: str) -> None:
         """Test that validation fails if a mandatory field is missing."""
         test_dict = self.valid_dict.copy()
         test_dict.pop(field)
@@ -65,7 +65,7 @@ class TestArc3Localization:
             ("integrity", None),
         ],
     )
-    def test_default_values(self, field: str, expected: int | bool | None):
+    def test_default_values(self, field: str, expected: int | bool | None) -> None:
         """Test that non-mandatory fields have the correct default values."""
         test_dict = self.valid_dict.copy()
         test_dict.pop(field)
@@ -97,7 +97,7 @@ class TestArc3Properties:
         },
     }
 
-    def test_valid_dict(self):
+    def test_valid_dict(self) -> None:
         """Test that validation succeeds when passed a valid dictionary."""
         assert Arc3Properties.model_validate(self.valid_dict)
 
@@ -107,7 +107,7 @@ class TestArc3Properties:
             ("traits", Arc16Traits | None),
         ],
     )
-    def test_annotated_types(self, field: str, expected_type: type):
+    def test_annotated_types(self, field: str, expected_type: type) -> None:
         """Test that annotated types are correct."""
         assert Arc3Properties.model_fields[field].rebuild_annotation() == expected_type
 
@@ -117,7 +117,7 @@ class TestArc3Properties:
             ("traits", None),
         ],
     )
-    def test_default_values(self, field: str, expected: int | bool | None):
+    def test_default_values(self, field: str, expected: int | bool | None) -> None:
         """Test that non-mandatory fields have the correct default values."""
         test_dict = self.valid_dict.copy()
         test_dict.pop(field)
@@ -207,7 +207,7 @@ class TestArc3Metadata:
             ("localization", Arc3Localization | None),
         ],
     )
-    def test_annotated_types(self, field: str, expected_type: type):
+    def test_annotated_types(self, field: str, expected_type: type) -> None:
         """Test that annotated types are correct."""
         assert Arc3Metadata.model_fields[field].rebuild_annotation() == expected_type
 
@@ -232,7 +232,7 @@ class TestArc3Metadata:
             ("localization", None),
         ],
     )
-    def test_default_values(self, field: str, expected: int | bool | None):
+    def test_default_values(self, field: str, expected: int | bool | None) -> None:
         """Test that non-mandatory fields have the correct default values."""
         test_dict = self.valid_dict.copy()
         test_dict.pop(field)

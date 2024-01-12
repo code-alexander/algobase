@@ -16,6 +16,6 @@ from humblepy.utils.url import decode_url_braces
         ("https://example.com/", "https://example.com/"),
     ],
 )
-def test_decode_url_braces(x: str, expected: str):
+def test_decode_url_braces(x: str, expected: str) -> None:
     """Test that decode_url_braces() decodes braces in a URL."""
     assert decode_url_braces(x) == expected
