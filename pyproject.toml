@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "humblepy"
-version = "0.3.0"
+version = "0.4.0"
 description = "A type-safe Python library for interacting with assets on Algorand."
 readme = "README.md"
 authors = ["humblepy <alexandercodes@proton.me>"]
@@ -24,7 +24,7 @@ classifiers = [  #! Update me
   "Topic :: Software Development :: Libraries :: Python Modules",
   "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.11",
 ]
 
 [tool.poetry.scripts]
@@ -38,6 +38,8 @@ typer = {extras = ["all"], version = "^0.9.0"}
 rich = "^13.7.0"
 pydantic = "^2.5.3"
 py-algorand-sdk = "^2.5.0"
+babel = "^2.14.0"
+cytoolz = "^0.12.2"
 
 
 
@@ -59,8 +61,8 @@ coverage = "^7.4.0"
 coverage-badge = "^1.1.0"
 pytest-html = "^4.1.1"
 pytest-cov = "^4.1.0"
-ruff = "^0.1.7"
-black = {version = "^23.12.1", allow-prereleases = true}
+ruff = "^0.1.12"
+black = {version = "^24.1a1", allow-prereleases = true}
 
 [tool.ruff]
 target-version = "py311"
