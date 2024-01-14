@@ -71,18 +71,6 @@ or install with `Poetry`
 poetry add humblepy
 ```
 
-Then you can run
-
-```bash
-humblepy --help
-```
-
-or with `Poetry`:
-
-```bash
-poetry run humblepy --help
-```
-
 ### Makefile usage
 
 [`Makefile`](https://github.com/code-alexander/humblepy/blob/main/Makefile) contains a lot of functions for faster development.

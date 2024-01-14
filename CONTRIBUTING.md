@@ -33,15 +33,22 @@ Comand `make lint` applies all checks.
 
 Before submitting your code please do the following steps:
 
-1. Add any changes you want
-1. Add tests for the new changes
-1. Edit documentation if you have changed something significant
+1. Add any changes you want.
+1. Add tests for the new changes.
+1. Edit documentation if you have changed something significant.
 1. Run `make codestyle` to format your changes.
 1. Run `make lint` to ensure that types, security and docstrings are okay.
 
+## Naming Conventions
+
+### Git
+
+- We follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages.
+- We follow the branch naming convention outlined [here](https://dev.to/varbsan/a-simplified-convention-for-naming-branches-and-commits-in-git-il4).
+
 ## Other help
 
-You can contribute by spreading a word about this library.
+You can contribute by spreading word about this library.
 It would also be a huge contribution to write
 a short article on how you are using this project.
 You can also share your best practices with us.
