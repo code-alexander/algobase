@@ -45,7 +45,7 @@ Expect breaking changes.
 
 ### Deployment features
 
-- `GitHub` integration: issue and pr templates.
+- `GitHub` integration: issue and PR templates.
 - `Github Actions` with predefined [build workflow](https://github.com/code-alexander/humblepy/blob/main/.github/workflows/build.yml) as the default CI/CD.
 - Everything is already set up for security checks, codestyle checks, code formatting, testing, linting, docker builds, etc with [`Makefile`](https://github.com/code-alexander/humblepy/blob/main/Makefile#L89). More details in [makefile-usage](#makefile-usage).
 - [Dockerfile](https://github.com/code-alexander/humblepy/blob/main/docker/Dockerfile) for your package.

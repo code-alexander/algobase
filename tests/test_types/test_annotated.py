@@ -16,6 +16,7 @@ from humblepy.types.annotated import (
     Arc16Traits,
     AsaAssetName,
     AsaDecimals,
+    AsaFractionalNftTotal,
     AsaUnitName,
     AsaUrl,
     Base64Str,
@@ -143,6 +144,31 @@ class TestAsaDecimals:
     def test_asa_decimals_in_bounds(self, n: int) -> None:
         """Test that `AsaDecimals` does not raise an error if the value is in bounds."""
         assert self.ta.validate_python(n) == n
+
+
+class TestAsaFractionalNftTotal:
+    """Test the `AsaFractionalNftTotal` type."""
+
+    ta = TypeAdapter(AsaFractionalNftTotal)
+
+    @pytest.mark.parametrize("n", [-1, 0, 2**64])
+    def test_asa_fractional_nft_total_out_of_bounds(self, n: int) -> None:
+        """Test that `AsaFractionalNftTotal` raises an error if the value is out of bounds."""
+        with pytest.raises(ValidationError):
+            self.ta.validate_python(n)
+
+    @pytest.mark.parametrize(
+        "n", [10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000]
+    )
+    def test_asa_fractional_nft_total_in_bounds_valid(self, n: int) -> None:
+        """Test that `AsaFractionalNftTotal` does not raise an error if the value is in bounds and is a power of 10 greater than 1."""
+        assert self.ta.validate_python(n) == n
+
+    @pytest.mark.parametrize("n", [1, 5, 15])
+    def test_asa_fractional_nft_total_in_bounds_invalid(self, n: int) -> None:
+        """Test that `AsaFractionalNftTotal` raises an error if the value is in bounds but is  not a power of 10 greater than 1."""
+        with pytest.raises(ValidationError):
+            self.ta.validate_python(n)
 
 
 class TestUrlSubtypes:

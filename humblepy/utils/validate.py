@@ -3,6 +3,7 @@
 import base64
 import binascii
 import hashlib
+import math
 import string
 from collections.abc import Iterable
 from functools import cache
@@ -249,3 +250,20 @@ def validate_not_in(iterable: Iterable[str], element: str) -> Iterable[str]:
     if element in iterable:
         raise ValueError(f"'{element}' is in {iterable}.")
     return iterable
+
+
+def validate_is_power_of_10(n: int) -> int:
+    """Checks that the value is a power of 10.
+
+    Args:
+        n (int): The value to check.
+
+    Raises:
+        ValueError: If the value is not a power of 10.
+
+    Returns:
+        int: The value passed in.
+    """
+    if not (n > 0 and math.log10(n).is_integer()):
+        raise ValueError(f"{n} is not a power of 10.")
+    return n
