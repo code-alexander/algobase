@@ -4,7 +4,7 @@ from functools import partial
 from typing import Annotated, Union
 
 from algosdk.constants import HASH_LEN, MAX_ASSET_DECIMALS
-from annotated_types import Ge, Le, Len, Lt
+from annotated_types import Ge, Gt, Le, Len, Lt
 from cytoolz import compose
 from pydantic import AfterValidator, UrlConstraints
 from pydantic_core import Url
@@ -18,6 +18,7 @@ from humblepy.utils.validate import (
     validate_contains_substring,
     validate_encoded_length,
     validate_hex,
+    validate_is_power_of_10,
     validate_locale,
     validate_mime_type,
     validate_not_in,
@@ -58,6 +59,9 @@ AsaUrl = Annotated[
     AfterValidator(
         compose(partial(validate_encoded_length, max_length=96), decode_url_braces, str)
     ),
+]
+AsaFractionalNftTotal = Annotated[
+    Uint64, Gt(1), AfterValidator(validate_is_power_of_10)
 ]
 
 # Algorand ARC-16 types

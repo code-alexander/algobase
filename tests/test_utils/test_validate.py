@@ -12,6 +12,7 @@ from humblepy.utils.validate import (
     validate_contains_substring,
     validate_encoded_length,
     validate_hex,
+    validate_is_power_of_10,
     validate_locale,
     validate_mime_type,
     validate_not_in,
@@ -313,3 +314,18 @@ def test_validate_base64_invalid(x: str) -> None:
     """Tests that validate_base64() raise a ValueError when passed an invalid string."""
     with pytest.raises(ValueError):
         validate_base64(x)
+
+
+@pytest.mark.parametrize(
+    "n", [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000]
+)
+def test_validate_is_power_of_10_valid(n: int) -> None:
+    """Test that validate_is_power_of_10() returns the original value when passed a valid power of 10."""
+    assert validate_is_power_of_10(n) == n
+
+
+@pytest.mark.parametrize("n", [-10, 0, 5, 15])
+def test_validate_is_power_of_10_invalid(n: int) -> None:
+    """Test that validate_is_power_of_10() raises a ValueError when passed an invalid power of 10."""
+    with pytest.raises(ValueError):
+        validate_is_power_of_10(n)
