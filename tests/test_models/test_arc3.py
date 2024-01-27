@@ -11,7 +11,6 @@ from humblepy.types.annotated import (
     Arc3Url,
     Arc16Traits,
     AsaDecimals,
-    AsaUnitName,
     Base64Str,
     ImageMimeType,
     MimeType,
@@ -191,7 +190,6 @@ class TestArc3Metadata:
     @pytest.mark.parametrize(
         "field, expected_type",
         [
-            ("name", AsaUnitName | None),
             ("decimals", AsaDecimals | None),
             ("image", Arc3Url | None),
             ("image_integrity", Arc3Sri | None),

@@ -5,15 +5,37 @@ import binascii
 import hashlib
 import math
 import string
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import cache
-from typing import overload
+from typing import Any, overload
 
 from algosdk.encoding import is_valid_address
 from babel import Locale, UnknownLocaleError
+from pydantic import TypeAdapter
 from pydantic_core import Url
 
 from humblepy.utils.read import read_ipfs_gateways, read_mime_types
+
+
+def is_valid(func: Callable[..., Any], *args: Any, **kwargs: Any) -> bool:
+    """Checks if a function call is valid.
+
+    The other functions in this module raise errors when the input is not valid.
+    This is a convenience function to check if a function call is valid without raising an error.
+
+    Args:
+        func (Callable[..., Any]): The function to call.
+        *args: Variable length argument list.
+        **kwargs: Arbitrary keyword arguments.
+
+    Returns:
+        bool: True if the function call doesn't raise a ValueError, else False.
+    """
+    try:
+        func(*args, **kwargs)
+        return True
+    except ValueError:
+        return False
 
 
 def validate_address(value: str) -> str:
@@ -63,21 +85,21 @@ def validate_encoded_length(value: str | Url, max_length: int) -> str | Url:
 
 
 @cache
-def validate_not_ipfs_gateway(url: Url) -> Url:
+def validate_not_ipfs_gateway(url: str) -> str:
     """Checks that the URL host is not a known public IPFS gateway.
 
     Args:
-        url (Url): The URL to check.
+        url (str): The URL to check.
 
     Raises:
         ValueError: If the URL host is a known public IPFS gateway.
 
     Returns:
-        Url: The URL passed in.
+        str: The URL passed in.
     """
     gateways = read_ipfs_gateways()
-    if any(Url(gateway).host == url.host for gateway in gateways):
-        raise ValueError(f"'{url.host}' is an IPFS gateway.")
+    if any(Url(gateway).host == Url(url).host for gateway in gateways):
+        raise ValueError(f"'{Url(url).host}' is an IPFS gateway.")
     return url
 
 
@@ -267,3 +289,20 @@ def validate_is_power_of_10(n: int) -> int:
     if not (n > 0 and math.log10(n).is_integer()):
         raise ValueError(f"{n} is not a power of 10.")
     return n
+
+
+def validate_type_compatibility(value: str, _type: type) -> str:
+    """Checks that the value is compatible with the annotated type.
+
+    Args:
+        value (str): The value to check.
+        _type (Type): The type to validate against.
+
+    Raises:
+        ValidationError: If the value is not compatible with the type.
+
+    Returns:
+        str: The value passed in.
+    """
+    TypeAdapter(_type).validate_python(value)
+    return value

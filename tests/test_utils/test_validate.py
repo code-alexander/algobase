@@ -4,8 +4,11 @@ from collections.abc import Iterable
 
 import pydantic
 import pytest
+from pydantic import ValidationError
+from pydantic_core import Url
 
 from humblepy.utils.validate import (
+    is_valid,
     validate_address,
     validate_arc3_sri,
     validate_base64,
@@ -18,7 +21,37 @@ from humblepy.utils.validate import (
     validate_not_in,
     validate_not_ipfs_gateway,
     validate_sri,
+    validate_type_compatibility,
 )
+
+
+class TestIsValid:
+    """Tests the is_valid() function."""
+
+    @staticmethod
+    def dummy_function(n: int) -> int:
+        """Dummy function for testing.
+
+        Args:
+            n (int): Integer to test.
+
+        Raises:
+            ValueError: If n > 1.
+
+        Returns:
+            int: The integer passed in.
+        """
+        if n > 1:
+            raise ValueError("n > 1")
+        return n
+
+    def test_is_valid_true(self) -> None:
+        """Test that is_valid() returns True when passed a valid function and arguments."""
+        assert is_valid(self.dummy_function, 1) is True
+
+    def test_is_valid_false(self) -> None:
+        """Test that is_valid() returns False when passed an invalid function and arguments."""
+        assert is_valid(self.dummy_function, 2) is False
 
 
 class TestValidateAddress:
@@ -69,16 +102,12 @@ class TestValidateNotIpfsGateway:
 
     def test_valid_url(self) -> None:
         """Test that validate_not_ipfs_gateway() returns the original URL when passed a URL that is not a known public IPFS gateway."""
-        url = pydantic.AnyUrl(
-            "ipfs://bafybeihkoviema7g3gxyt6la7vd5ho32ictqbilu3wnlo3rs7ewhnp7lly/"
-        )
+        url = "ipfs://bafybeihkoviema7g3gxyt6la7vd5ho32ictqbilu3wnlo3rs7ewhnp7lly/"
         assert validate_not_ipfs_gateway(url) == url
 
     def test_invalid_url(self) -> None:
         """Test that validate_not_ipfs_gateway() raises a ValueError when passed a URL that is a known public IPFS gateway."""
-        url = pydantic.AnyUrl(
-            "https://ipfs.io/ipfs/bafybeihkoviema7g3gxyt6la7vd5ho32ictqbilu3wnlo3rs7ewhnp7lly/"
-        )
+        url = "https://ipfs.io/ipfs/bafybeihkoviema7g3gxyt6la7vd5ho32ictqbilu3wnlo3rs7ewhnp7lly/"
         with pytest.raises(ValueError):
             validate_not_ipfs_gateway(url)
 
@@ -329,3 +358,16 @@ def test_validate_is_power_of_10_invalid(n: int) -> None:
     """Test that validate_is_power_of_10() raises a ValueError when passed an invalid power of 10."""
     with pytest.raises(ValueError):
         validate_is_power_of_10(n)
+
+
+@pytest.mark.parametrize("value, _type", [("https://www.google.com", Url)])
+def test_validate_type_compatibility_valid(value: str, _type: type) -> None:
+    """Test that validate_type_compatibility() returns the original value when passed a value that is compatible with the specified type."""
+    assert validate_type_compatibility(value, _type) == value
+
+
+@pytest.mark.parametrize("value, _type", [("www.google.com", Url)])
+def test_validate_type_compatibility_invalid(value: str, _type: type) -> None:
+    """Test that validate_type_compatibility() raises an error when passed a value that is incompatible with the specified type."""
+    with pytest.raises(ValidationError):
+        validate_type_compatibility(value, _type)

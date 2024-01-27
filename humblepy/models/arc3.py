@@ -7,6 +7,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from humblepy.choices import Arc
 from humblepy.types.annotated import (
     Arc3Color,
     Arc3LocalizedUrl,
@@ -14,7 +15,6 @@ from humblepy.types.annotated import (
     Arc3Url,
     Arc16Traits,
     AsaDecimals,
-    AsaUnitName,
     Base64Str,
     ImageMimeType,
     MimeType,
@@ -49,10 +49,12 @@ class Arc3Properties(BaseModel):
     """
 
     model_config = ConfigDict(frozen=True, extra="allow")
+
     # Struggling to get recursive type definition working here.
     # Have defined `Arc3NonTraitProperties` in humblepy/types/annotated.py
     # but it doesn't work as an annotation for __pydantic_extra__.
     __pydantic_extra__: dict[str, str | int | float | dict | list]  # type: ignore
+
     traits: Arc16Traits | None = Field(
         default=None,
         description="Traits (attributes) that can be used to calculate things like rarity. Values may be strings or numbers.",
@@ -64,7 +66,25 @@ class Arc3Metadata(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    name: AsaUnitName | None = Field(
+    @property
+    def arc(self) -> Literal[Arc.ARC3]:
+        """Name of the Algorand ARC standard that the NFT metadata adheres to."""
+        return Arc.ARC3
+
+    @property
+    def json_str(self) -> str:
+        """Returns the model JSON as a string."""
+        return self.model_dump_json(exclude_none=True, indent=4)
+
+    @property
+    def json_bytes(self, encoding: Literal["utf-8"] = "utf-8") -> bytes:
+        """Returns the model JSON encoded as bytes.
+
+        Currently only officially supports UTF-8 encoding.
+        """
+        return self.json_str.encode(encoding)
+
+    name: str | None = Field(
         default=None, description="Identifies the asset to which this token represents."
     )
     decimals: AsaDecimals | None = Field(

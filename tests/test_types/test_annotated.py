@@ -1,9 +1,9 @@
 """Unit tests for the annotated types."""
 
+
 import pytest
 from algosdk.constants import HASH_LEN, MAX_ASSET_DECIMALS
 from pydantic import TypeAdapter, ValidationError
-from pydantic_core import Url
 
 from humblepy.types.annotated import (
     AlgorandAddress,
@@ -171,55 +171,55 @@ class TestAsaFractionalNftTotal:
             self.ta.validate_python(n)
 
 
-class TestUrlSubtypes:
+class TestUrlTypes:
     """Test `AsaUrl`, `Arc3Url`, and `Arc3LocalizedUrl`."""
 
     @pytest.mark.parametrize(
-        "subtype, x",
+        "_type, x",
         [
             (AsaUrl, "https://www.example.com/"),
             (Arc3Url, "https://www.example.com/"),
             (Arc3LocalizedUrl, "https://www.example.com/{locale}/"),
         ],
     )
-    def test_url_is_string(self, subtype: Url, x: str) -> None:
-        """Test that the subtype returns a string when passed a valid URL."""
-        ta = TypeAdapter(subtype)
+    def test_url_is_string(self, _type: type, x: str) -> None:
+        """Test that the type returns a string when passed a valid URL."""
+        ta = TypeAdapter(_type)  # type: ignore
         assert isinstance(ta.validate_python(x), str)
 
-    @pytest.mark.parametrize("subtype", [AsaUrl, Arc3Url, Arc3LocalizedUrl])
-    def test_asa_url_invalid(self, subtype: Url) -> None:
+    @pytest.mark.parametrize("_type", [AsaUrl, Arc3Url, Arc3LocalizedUrl])
+    def test_asa_url_invalid(self, _type: type) -> None:
         """Test that subtype raises an error if the value is not a valid URL."""
-        ta = TypeAdapter(subtype)
+        ta = TypeAdapter(_type)  # type: ignore
         with pytest.raises(ValidationError):
             ta.validate_python("example.com")
 
-    @pytest.mark.parametrize("subtype", [AsaUrl, Arc3Url, Arc3LocalizedUrl])
-    def test_url_encoded_length_out_of_bounds(self, subtype: Url) -> None:
+    @pytest.mark.parametrize("_type", [AsaUrl, Arc3Url, Arc3LocalizedUrl])
+    def test_url_encoded_length_out_of_bounds(self, _type: type) -> None:
         """Test that the subtype raises an error if the encoded length of the value > 96 bytes."""
-        ta = TypeAdapter(subtype)
+        ta = TypeAdapter(_type)  # type: ignore
         with pytest.raises(ValidationError):
             ta.validate_python(
                 "https://www.example.com/1234567890123456789012345678901234567890123456789012345678901234567890123"
             )
 
-    @pytest.mark.parametrize("subtype", [Arc3Url, Arc3LocalizedUrl])
-    def test_url_invalid_scheme(self, subtype: Url) -> None:
+    @pytest.mark.parametrize("_type", [Arc3Url, Arc3LocalizedUrl])
+    def test_url_invalid_scheme(self, _type: type) -> None:
         """Test that the subtype raises an error when passed a URL with a scheme that is not 'https' or 'ipfs'."""
-        ta = TypeAdapter(subtype)
+        ta = TypeAdapter(_type)  # type: ignore
         with pytest.raises(ValidationError):
             ta.validate_python("http://example.com/")
 
-    @pytest.mark.parametrize("subtype", [Arc3Url, Arc3LocalizedUrl])
-    def test_url_invalid_gateway(self, subtype: Url) -> None:
+    @pytest.mark.parametrize("_type", [Arc3Url, Arc3LocalizedUrl])
+    def test_url_invalid_gateway(self, _type: type) -> None:
         """Test that subtype raises a ValidationError when passed a URL that is a known public IPFS gateway."""
-        ta = TypeAdapter(subtype)
+        ta = TypeAdapter(_type)  # type: ignore
         with pytest.raises(ValidationError):
             ta.validate_python(
                 "https://ipfs.io/ipfs/bafybeihkoviema7g3gxyt6la7vd5ho32ictqbilu3wnlo3rs7ewhnp7lly/"
             )
 
-    @pytest.mark.parametrize("subtype", [AsaUrl, Arc3Url])
+    @pytest.mark.parametrize("_type", [AsaUrl, Arc3Url])
     @pytest.mark.parametrize(
         "x",
         [
@@ -230,9 +230,9 @@ class TestUrlSubtypes:
             "https://s3.amazonaws.com/your-bucket/images/{id}.png",
         ],
     )
-    def test_url_valid(self, subtype: Url, x: str) -> None:
+    def test_url_valid(self, _type: type, x: str) -> None:
         """Test that subtype returns the original value if the the value is a valid URL and its encoded length is in bounds."""
-        ta = TypeAdapter(subtype)
+        ta = TypeAdapter(_type)  # type: ignore
         assert str(ta.validate_python(x)) == x
 
     @pytest.mark.parametrize(

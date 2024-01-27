@@ -23,6 +23,7 @@ from humblepy.utils.validate import (
     validate_mime_type,
     validate_not_in,
     validate_not_ipfs_gateway,
+    validate_type_compatibility,
 )
 
 # Generic types
@@ -55,9 +56,13 @@ AsaAssetName = Annotated[
     str, AfterValidator(partial(validate_encoded_length, max_length=32))
 ]
 AsaUrl = Annotated[
-    Url,
+    str,
     AfterValidator(
-        compose(partial(validate_encoded_length, max_length=96), decode_url_braces, str)
+        compose(
+            partial(validate_encoded_length, max_length=96),
+            decode_url_braces,
+            partial(validate_type_compatibility, _type=Url),
+        )
     ),
 ]
 AsaFractionalNftTotal = Annotated[
@@ -69,27 +74,31 @@ Arc16Traits = dict[str, str | int]
 
 # Algorand ARC-3 types
 Arc3Url = Annotated[
-    Url,
-    UrlConstraints(allowed_schemes=["https", "ipfs"]),
+    str,
     AfterValidator(
         compose(
             partial(validate_encoded_length, max_length=96),
             decode_url_braces,
-            str,
             validate_not_ipfs_gateway,
+            partial(
+                validate_type_compatibility,
+                _type=Annotated[Url, UrlConstraints(allowed_schemes=["https", "ipfs"])],
+            ),
         )
     ),
 ]
 Arc3LocalizedUrl = Annotated[
-    Url,
-    UrlConstraints(allowed_schemes=["https", "ipfs"]),
+    str,
     AfterValidator(
         compose(
             partial(validate_encoded_length, max_length=96),
             partial(validate_contains_substring, substring="{locale}"),
             decode_url_braces,
-            str,
             validate_not_ipfs_gateway,
+            partial(
+                validate_type_compatibility,
+                _type=Annotated[Url, UrlConstraints(allowed_schemes=["https", "ipfs"])],
+            ),
         )
     ),
 ]
