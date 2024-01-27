@@ -289,6 +289,11 @@ You can update it in [`release-drafter.yml`](https://github.com/code-alexander/h
 
 GitHub creates the `bug`, `enhancement`, and `documentation` labels for you. Dependabot creates the `dependencies` label. Create the remaining labels on the Issues tab of your GitHub repository, when you need them.
 
+## 📖 Additional Resources
+
+- [ARC Token Standards Explained for NFT Creators](https://www.algorand.foundation/news/arc-token-standards-explained-for-nft-creators)
+- [Algorand Requests for Comments (ARCs)](https://arc.algorand.foundation/)
+
 ## 🛡 License
 
 [![License](https://img.shields.io/github/license/code-alexander/humblepy)](https://github.com/code-alexander/humblepy/blob/main/LICENSE)
