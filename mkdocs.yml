@@ -1,0 +1,27 @@
+site_name: algobase
+
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            ignore_init_summary: true
+            docstring_section_style: list
+            filters: ["!^_"]
+            separate_signature: true
+            show_root_heading: true
+            show_signature_annotations: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            unwrap_annotated: true
+
+nav:
+  - index.md
+  - tutorials.md
+  - How-To Guides: how-to-guides.md
+  - reference.md
+  - explanation.md
