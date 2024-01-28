@@ -1,1 +1,1 @@
-"""Tests for humblepy."""
+"""Tests for algobase."""

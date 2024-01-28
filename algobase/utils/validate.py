@@ -14,7 +14,7 @@ from babel import Locale, UnknownLocaleError
 from pydantic import TypeAdapter
 from pydantic_core import Url
 
-from humblepy.utils.read import read_ipfs_gateways, read_mime_types
+from algobase.utils.read import read_ipfs_gateways, read_mime_types
 
 
 def is_valid(func: Callable[..., Any], *args: Any, **kwargs: Any) -> bool:

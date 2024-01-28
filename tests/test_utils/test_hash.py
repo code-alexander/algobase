@@ -2,7 +2,7 @@
 
 import pytest
 
-from humblepy.utils.hash import sha256, sha512_256
+from algobase.utils.hash import sha256, sha512_256
 
 
 @pytest.mark.parametrize(

@@ -12,12 +12,12 @@ from pydantic import (
     model_validator,
 )
 
-from humblepy.choices import Arc, AsaType, AsaTypeChoice
-from humblepy.models.arc3 import Arc3Metadata
-from humblepy.models.asset_params import AssetParams
-from humblepy.types.annotated import AlgorandHash, AsaAssetName
-from humblepy.utils.hash import sha256, sha512_256
-from humblepy.utils.validate import is_valid, validate_type_compatibility
+from algobase.choices import Arc, AsaType, AsaTypeChoice
+from algobase.models.arc3 import Arc3Metadata
+from algobase.models.asset_params import AssetParams
+from algobase.types.annotated import AlgorandHash, AsaAssetName
+from algobase.utils.hash import sha256, sha512_256
+from algobase.utils.validate import is_valid, validate_type_compatibility
 
 
 class Asa(BaseModel):
@@ -49,17 +49,17 @@ class Asa(BaseModel):
     @property
     def metadata_hash(self) -> AlgorandHash | None:
         """The hash of the JSON metadata."""
-        if self.metadata is None:
-            return None
-        # Currently only ARC3 is supported
-        elif self.metadata.arc == Arc.ARC3:
-            if self.metadata.extra_metadata is None:
-                return sha256(self.metadata.json_bytes)
-            else:
-                # am = SHA-512/256("arc0003/am" || SHA-512/256("arc0003/amj" || content of JSON Metadata file) || e)
-                base_hash = sha512_256(b"arc0003/amj" + self.metadata.json_bytes)
-                extra_metadata_bytes = b64decode(self.metadata.extra_metadata)
-                return sha512_256(b"arc0003/am" + base_hash + extra_metadata_bytes)
+        if self.metadata is not None:
+            # Currently only ARC3 is supported
+            if self.metadata.arc == Arc.ARC3:
+                if self.metadata.extra_metadata is None:
+                    return sha256(self.metadata.json_bytes)
+                else:
+                    # am = SHA-512/256("arc0003/am" || SHA-512/256("arc0003/amj" || content of JSON Metadata file) || e)
+                    base_hash = sha512_256(b"arc0003/amj" + self.metadata.json_bytes)
+                    extra_metadata_bytes = b64decode(self.metadata.extra_metadata)
+                    return sha512_256(b"arc0003/am" + base_hash + extra_metadata_bytes)
+        return None
 
     @model_validator(mode="after")
     def check_asa_type_constraints(self) -> "Asa":

@@ -7,8 +7,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from humblepy.choices import Arc
-from humblepy.types.annotated import (
+from algobase.choices import Arc
+from algobase.types.annotated import (
     Arc3Color,
     Arc3LocalizedUrl,
     Arc3Sri,
@@ -51,7 +51,7 @@ class Arc3Properties(BaseModel):
     model_config = ConfigDict(frozen=True, extra="allow")
 
     # Struggling to get recursive type definition working here.
-    # Have defined `Arc3NonTraitProperties` in humblepy/types/annotated.py
+    # Have defined `Arc3NonTraitProperties` in algobase/types/annotated.py
     # but it doesn't work as an annotation for __pydantic_extra__.
     __pydantic_extra__: dict[str, str | int | float | dict | list]  # type: ignore
 

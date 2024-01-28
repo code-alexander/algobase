@@ -1,16 +1,16 @@
-# 🥧 humblepy
+# 🥧 algobase
 
 <div align="center">
 
-[![Build status](https://github.com/code-alexander/humblepy/workflows/build/badge.svg?branch=main&event=push)](https://github.com/code-alexander/humblepy/actions?query=workflow%3Abuild)
-[![Python Version](https://img.shields.io/pypi/pyversions/humblepy.svg)](https://pypi.org/project/humblepy/)
-[![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://github.com/code-alexander/humblepy/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
+[![Build status](https://github.com/code-alexander/algobase/workflows/build/badge.svg?branch=main&event=push)](https://github.com/code-alexander/algobase/actions?query=workflow%3Abuild)
+[![Python Version](https://img.shields.io/pypi/pyversions/algobase.svg)](https://pypi.org/project/algobase/)
+[![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://github.com/code-alexander/algobase/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Security: bandit](https://img.shields.io/badge/security-bandit-green.svg)](https://github.com/PyCQA/bandit)
-[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/code-alexander/humblepy/blob/main/.pre-commit-config.yaml)
-[![Semantic Versions](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--versions-e10079.svg)](https://github.com/code-alexander/humblepy/releases)
-[![License](https://img.shields.io/github/license/code-alexander/humblepy)](https://github.com/code-alexander/humblepy/blob/main/LICENSE)
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/code-alexander/algobase/blob/main/.pre-commit-config.yaml)
+[![Semantic Versions](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--versions-e10079.svg)](https://github.com/code-alexander/algobase/releases)
+[![License](https://img.shields.io/github/license/code-alexander/algobase)](https://github.com/code-alexander/algobase/blob/main/LICENSE)
 ![Coverage Report](assets/images/coverage.svg)
 
 A type-safe Python library for interacting with assets on Algorand.
@@ -19,11 +19,11 @@ A type-safe Python library for interacting with assets on Algorand.
 
 ## 💡 Motivation
 
-humblepy aims to provide a first-class developer experience for creating, managing, and querying Algorand ASAs.
+algobase aims to provide a first-class developer experience for creating, managing, and querying Algorand ASAs.
 
 It's designed to be easy to use, extensible, and compliant with [Algorand ARC](https://arc.algorand.foundation/) standards.
 
-humblepy uses [Pydantic](https://github.com/pydantic/pydantic) to validate and serialise data, making it easier to integrate with other tools in the ecosystem like [FastAPI](https://github.com/tiangolo/fastapi) and [SQLModel](https://github.com/tiangolo/sqlmodel).
+algobase uses [Pydantic](https://github.com/pydantic/pydantic) to validate and serialise data, making it easier to integrate with other tools in the ecosystem like [FastAPI](https://github.com/tiangolo/fastapi) and [SQLModel](https://github.com/tiangolo/sqlmodel).
 
 ## ⚠️ Warning
 
@@ -36,44 +36,44 @@ Expect breaking changes.
 ### Development features
 
 - Supports `Python 3.11` and higher.
-- [`Poetry`](https://python-poetry.org/) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/code-alexander/humblepy/blob/main/pyproject.toml).
+- [`Poetry`](https://python-poetry.org/) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/code-alexander/algobase/blob/main/pyproject.toml).
 - Automatic codestyle with [`ruff`](https://github.com/astral-sh/ruff), [`pydocstyle`](https://github.com/PyCQA/pydocstyle) and [`pyupgrade`](https://github.com/asottile/pyupgrade).
 - Ready-to-use [`pre-commit`](https://pre-commit.com/) hooks with code-formatting.
 - Type checks with [`mypy`](https://mypy.readthedocs.io); security checks with [`safety`](https://github.com/pyupio/safety) and [`bandit`](https://github.com/PyCQA/bandit)
 - Testing with [`pytest`](https://docs.pytest.org/en/latest/).
-- Ready-to-use [`.editorconfig`](https://github.com/code-alexander/humblepy/blob/main/.editorconfig), [`.dockerignore`](https://github.com/code-alexander/humblepy/blob/main/.dockerignore), and [`.gitignore`](https://github.com/code-alexander/humblepy/blob/main/.gitignore). You don't have to worry about those things.
+- Ready-to-use [`.editorconfig`](https://github.com/code-alexander/algobase/blob/main/.editorconfig), [`.dockerignore`](https://github.com/code-alexander/algobase/blob/main/.dockerignore), and [`.gitignore`](https://github.com/code-alexander/algobase/blob/main/.gitignore). You don't have to worry about those things.
 
 ### Deployment features
 
 - `GitHub` integration: issue and PR templates.
-- `Github Actions` with predefined [build workflow](https://github.com/code-alexander/humblepy/blob/main/.github/workflows/build.yml) as the default CI/CD.
-- Everything is already set up for security checks, codestyle checks, code formatting, testing, linting, docker builds, etc with [`Makefile`](https://github.com/code-alexander/humblepy/blob/main/Makefile#L89). More details in [makefile-usage](#makefile-usage).
-- [Dockerfile](https://github.com/code-alexander/humblepy/blob/main/docker/Dockerfile) for your package.
+- `Github Actions` with predefined [build workflow](https://github.com/code-alexander/algobase/blob/main/.github/workflows/build.yml) as the default CI/CD.
+- Everything is already set up for security checks, codestyle checks, code formatting, testing, linting, docker builds, etc with [`Makefile`](https://github.com/code-alexander/algobase/blob/main/Makefile#L89). More details in [makefile-usage](#makefile-usage).
+- [Dockerfile](https://github.com/code-alexander/algobase/blob/main/docker/Dockerfile) for your package.
 - Always up-to-date dependencies with [`@dependabot`](https://dependabot.com/). You will only [enable it](https://docs.github.com/en/github/administering-a-repository/enabling-and-disabling-version-updates#enabling-github-dependabot-version-updates).
-- Automatic drafts of new releases with [`Release Drafter`](https://github.com/marketplace/actions/release-drafter). You may see the list of labels in [`release-drafter.yml`](https://github.com/code-alexander/humblepy/blob/main/.github/release-drafter.yml). Works perfectly with [Semantic Versions](https://semver.org/) specification.
+- Automatic drafts of new releases with [`Release Drafter`](https://github.com/marketplace/actions/release-drafter). You may see the list of labels in [`release-drafter.yml`](https://github.com/code-alexander/algobase/blob/main/.github/release-drafter.yml). Works perfectly with [Semantic Versions](https://semver.org/) specification.
 
 ### Open source community features
 
-- Ready-to-use [Pull Requests templates](https://github.com/code-alexander/humblepy/blob/main/.github/PULL_REQUEST_TEMPLATE.md) and several [Issue templates](https://github.com/code-alexander/humblepy/tree/main/.github/ISSUE_TEMPLATE).
+- Ready-to-use [Pull Requests templates](https://github.com/code-alexander/algobase/blob/main/.github/PULL_REQUEST_TEMPLATE.md) and several [Issue templates](https://github.com/code-alexander/algobase/tree/main/.github/ISSUE_TEMPLATE).
 - Files such as: `LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md` are generated automatically.
-- [`Stale bot`](https://github.com/apps/stale) that closes abandoned issues after a period of inactivity. (You will only [need to setup free plan](https://github.com/marketplace/stale)). Configuration is [here](https://github.com/code-alexander/humblepy/blob/main/.github/.stale.yml).
+- [`Stale bot`](https://github.com/apps/stale) that closes abandoned issues after a period of inactivity. (You will only [need to setup free plan](https://github.com/marketplace/stale)). Configuration is [here](https://github.com/code-alexander/algobase/blob/main/.github/.stale.yml).
 - [Semantic Versions](https://semver.org/) specification with [`Release Drafter`](https://github.com/marketplace/actions/release-drafter).
 
 ## Installation
 
 ```bash
-pip install -U humblepy
+pip install -U algobase
 ```
 
 or install with `Poetry`
 
 ```bash
-poetry add humblepy
+poetry add algobase
 ```
 
 ### Makefile usage
 
-[`Makefile`](https://github.com/code-alexander/humblepy/blob/main/Makefile) contains a lot of functions for faster development.
+[`Makefile`](https://github.com/code-alexander/algobase/blob/main/Makefile) contains a lot of functions for faster development.
 
 <details>
 <summary>1. Download and remove Poetry</summary>
@@ -225,7 +225,7 @@ Remove docker image with
 make docker-remove
 ```
 
-More information [about docker](https://github.com/code-alexander/humblepy/tree/main/docker).
+More information [about docker](https://github.com/code-alexander/algobase/tree/main/docker).
 
 </p>
 </details>
@@ -268,7 +268,7 @@ make cleanup
 
 ## 📈 Releases
 
-You can see the list of available releases on the [GitHub Releases](https://github.com/code-alexander/humblepy/releases) page.
+You can see the list of available releases on the [GitHub Releases](https://github.com/code-alexander/algobase/releases) page.
 
 We follow [Semantic Versions](https://semver.org/) specification.
 
@@ -285,7 +285,7 @@ We use [`Release Drafter`](https://github.com/marketplace/actions/release-drafte
 |            `documentation`            |    📝 Documentation     |
 |            `dependencies`             | ⬆️ Dependencies updates |
 
-You can update it in [`release-drafter.yml`](https://github.com/code-alexander/humblepy/blob/main/.github/release-drafter.yml).
+You can update it in [`release-drafter.yml`](https://github.com/code-alexander/algobase/blob/main/.github/release-drafter.yml).
 
 GitHub creates the `bug`, `enhancement`, and `documentation` labels for you. Dependabot creates the `dependencies` label. Create the remaining labels on the Issues tab of your GitHub repository, when you need them.
 
@@ -296,20 +296,20 @@ GitHub creates the `bug`, `enhancement`, and `documentation` labels for you. Dep
 
 ## 🛡 License
 
-[![License](https://img.shields.io/github/license/code-alexander/humblepy)](https://github.com/code-alexander/humblepy/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/code-alexander/algobase)](https://github.com/code-alexander/algobase/blob/main/LICENSE)
 
-This project is licensed under the terms of the `Apache Software License 2.0` license. See [LICENSE](https://github.com/code-alexander/humblepy/blob/main/LICENSE) for more details.
+This project is licensed under the terms of the `Apache Software License 2.0` license. See [LICENSE](https://github.com/code-alexander/algobase/blob/main/LICENSE) for more details.
 
 ## 📃 Citation
 
 ```bibtex
-@misc{humblepy,
+@misc{algobase,
   author = {code-alexander},
   title = {A type-safe Python library for interacting with assets on Algorand.},
   year = {2023},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/code-alexander/humblepy}}
+  howpublished = {\url{https://github.com/code-alexander/algobase}}
 }
 ```
 

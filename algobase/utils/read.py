@@ -10,7 +10,7 @@ def read_ipfs_gateways() -> list[str]:
     Returns:
         list[str]: The list of IPFS gateways.
     """
-    with open("humblepy/data/ipfs.toml", "rb") as f:
+    with open("algobase/data/ipfs.toml", "rb") as f:
         data = tomllib.load(f)
     return list(data["ipfs_gateways"])
 
