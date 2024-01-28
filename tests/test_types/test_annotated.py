@@ -5,7 +5,7 @@ import pytest
 from algosdk.constants import HASH_LEN, MAX_ASSET_DECIMALS
 from pydantic import TypeAdapter, ValidationError
 
-from humblepy.types.annotated import (
+from algobase.types.annotated import (
     AlgorandAddress,
     AlgorandHash,
     Arc3Color,

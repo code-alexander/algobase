@@ -3,10 +3,10 @@
 
 import pytest
 
-from humblepy.choices import AsaType, AsaTypeChoice
-from humblepy.models.arc3 import Arc3Metadata
-from humblepy.models.asa import Asa
-from humblepy.models.asset_params import AssetParams
+from algobase.choices import AsaType, AsaTypeChoice
+from algobase.models.arc3 import Arc3Metadata
+from algobase.models.asa import Asa
+from algobase.models.asset_params import AssetParams
 from tests.types import FixtureDict
 
 

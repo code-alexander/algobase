@@ -7,7 +7,7 @@
 
 Vulnerabilities can be reported by emailing core members:
 
-- humblepy [alexandercodes@proton.me](mailto:alexandercodes@proton.me)
+- algobase [alexandercodes@proton.me](mailto:alexandercodes@proton.me)
 
 Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
 

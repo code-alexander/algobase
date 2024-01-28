@@ -3,8 +3,8 @@
 import pytest
 from pydantic import ValidationError
 
-from humblepy.models.arc3 import Arc3Localization, Arc3Metadata, Arc3Properties
-from humblepy.types.annotated import (
+from algobase.models.arc3 import Arc3Localization, Arc3Metadata, Arc3Properties
+from algobase.types.annotated import (
     Arc3Color,
     Arc3LocalizedUrl,
     Arc3Sri,

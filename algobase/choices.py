@@ -1,11 +1,11 @@
-"""Enums and enum type aliases for humblepy."""
+"""Enums and enum type aliases for algobase."""
 
 from enum import StrEnum, auto
 from typing import Literal, TypeAlias
 
 
 class Arc(StrEnum):
-    """An enumeration of Algorand ARC standards that are supported in humblepy."""
+    """An enumeration of Algorand ARC standards that are supported in algobase."""
 
     ARC3 = auto()
 

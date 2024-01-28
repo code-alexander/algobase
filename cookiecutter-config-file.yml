@@ -1,9 +1,9 @@
 # This file contains values from Cookiecutter
 
 default_context:
-  project_name: "humblepy"
+  project_name: "algobase"
   project_description: "A type-safe Python library for interacting with assets on Algorand."
-  organization: "humblepy"
+  organization: "algobase"
   license: "Apache Software License 2.0"
   minimal_python_version: 3.11
   github_name: "code-alexander"

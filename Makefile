@@ -4,7 +4,7 @@ PYTHON := python
 PYTHONPATH := `pwd`
 
 #* Docker variables
-IMAGE := humblepy
+IMAGE := algobase
 VERSION := latest
 
 #* Poetry
@@ -39,7 +39,7 @@ formatting: codestyle
 #* Linting
 .PHONY: test
 test:
-	PYTHONPATH=$(PYTHONPATH) poetry run pytest -c pyproject.toml --cov-report=html --cov=humblepy tests/
+	PYTHONPATH=$(PYTHONPATH) poetry run pytest -c pyproject.toml --cov-report=html --cov=algobase tests/
 	poetry run coverage-badge -o assets/images/coverage.svg -f
 
 .PHONY: check-codestyle
@@ -55,7 +55,7 @@ mypy:
 check-safety:
 	poetry check
 	poetry run safety check --full-report
-	poetry run bandit -ll --recursive humblepy tests
+	poetry run bandit -ll --recursive algobase tests
 
 .PHONY: lint
 lint: test check-codestyle mypy check-safety

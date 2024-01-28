@@ -6,7 +6,7 @@ from pydantic import (
     Field,
 )
 
-from humblepy.types.annotated import (
+from algobase.types.annotated import (
     AlgorandAddress,
     AlgorandHash,
     AsaAssetName,

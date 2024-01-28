@@ -4,8 +4,8 @@
 import pytest
 from pydantic import ValidationError
 
-from humblepy.models.asset_params import AssetParams
-from humblepy.types.annotated import (
+from algobase.models.asset_params import AssetParams
+from algobase.types.annotated import (
     AlgorandAddress,
     AlgorandHash,
     AsaAssetName,

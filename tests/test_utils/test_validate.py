@@ -1,4 +1,4 @@
-"""Unit tests for the humblepy.utils.validate functions."""
+"""Unit tests for the algobase.utils.validate functions."""
 
 from collections.abc import Iterable
 
@@ -7,7 +7,7 @@ import pytest
 from pydantic import ValidationError
 from pydantic_core import Url
 
-from humblepy.utils.validate import (
+from algobase.utils.validate import (
     is_valid,
     validate_address,
     validate_arc3_sri,

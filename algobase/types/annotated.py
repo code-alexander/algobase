@@ -10,8 +10,8 @@ from pydantic import AfterValidator, UrlConstraints
 from pydantic_core import Url
 from typing_extensions import TypeAliasType
 
-from humblepy.utils.url import decode_url_braces
-from humblepy.utils.validate import (
+from algobase.utils.url import decode_url_braces
+from algobase.utils.validate import (
     validate_address,
     validate_arc3_sri,
     validate_base64,

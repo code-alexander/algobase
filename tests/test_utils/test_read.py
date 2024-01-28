@@ -1,7 +1,7 @@
-"""Unit tests for the humblepy.utils.read functions."""
+"""Unit tests for the algobase.utils.read functions."""
 import pytest
 
-from humblepy.utils.read import read_ipfs_gateways, read_mime_types
+from algobase.utils.read import read_ipfs_gateways, read_mime_types
 
 
 def test_read_ipfs_gateways() -> None:

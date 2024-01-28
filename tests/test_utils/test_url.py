@@ -2,7 +2,7 @@
 
 import pytest
 
-from humblepy.utils.url import decode_url_braces
+from algobase.utils.url import decode_url_braces
 
 
 @pytest.mark.parametrize(
