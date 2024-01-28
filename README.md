@@ -1,4 +1,4 @@
-# 🥧 algobase
+# algobase
 
 <div align="center">
 
