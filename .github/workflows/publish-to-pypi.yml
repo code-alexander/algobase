@@ -82,6 +82,8 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
+      - name: Install poetry
+        run: make poetry-download
       - name: Install dependencies
         run: |
           poetry config virtualenvs.in-project true
