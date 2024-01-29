@@ -31,6 +31,10 @@ This library is in the early stages of development.
 
 Expect breaking changes.
 
+## 📖 Documentation
+
+[algobase docs] (https://code-alexander.github.io/algobase/)
+
 ## 🚀 Features
 
 ### Development features
