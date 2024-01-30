@@ -24,3 +24,12 @@ class AsaType(StrEnum):
 AsaTypeChoice: TypeAlias = Literal[
     AsaType.FUNGIBLE, AsaType.NON_FUNGIBLE_PURE, AsaType.NON_FUNGIBLE_FRACTIONAL
 ]
+
+
+class IpfsProvider(StrEnum):
+    """An enumeration of IPFS providers."""
+
+    NFT_STORAGE = auto()
+
+
+IpfsProviderChoice: TypeAlias = Literal[IpfsProvider.NFT_STORAGE]

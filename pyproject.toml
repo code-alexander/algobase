@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "algobase"
-version = "0.7.1"
+version = "0.8.0"
 description = "A type-safe Python library for interacting with assets on Algorand."
 readme = "README.md"
 authors = ["algobase <alexandercodes@proton.me>"]
@@ -40,6 +40,10 @@ pydantic = "^2.5.3"
 py-algorand-sdk = "^2.5.0"
 babel = "^2.14.0"
 cytoolz = "^0.12.2"
+fastapi = "^0.109.0"
+python-decouple = "^3.8"
+httpx = "^0.26.0"
+pytest-httpx = "^0.28.0"
 
 
 [tool.poetry.plugins."poetry.application.plugin"]
