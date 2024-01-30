@@ -16,7 +16,10 @@ from algobase.ipfs.client_base import IpfsClient
 
 @dataclass
 class NftStorage(IpfsClient):
-    """IPFS client for nft.storage."""
+    """IPFS client for nft.storage.
+
+    Requires the `NFT_STORAGE_API_KEY` environment variable to be set.
+    """
 
     @property
     def ipfs_provider_name(self) -> IpfsProviderChoice:
@@ -38,6 +41,11 @@ class NftStorage(IpfsClient):
         """Whether the IPFS provider requires an API key."""
         return True
 
+    @property
+    def headers(self) -> dict[str, str]:
+        """The headers to use for the HTTP requests."""
+        return {"Authorization": f"Bearer {self.api_key}"}
+
     def store_json(self, json: str) -> str | None:
         """Stores JSON data in IPFS.
 
@@ -48,7 +56,12 @@ class NftStorage(IpfsClient):
             str | None: The IPFS CID of the stored data, or None if the data could not be stored.
         """
         with httpx.Client() as client:
-            response = client.post(url=urljoin(self.base_url, "upload"), json=json)
+            response = client.post(
+                url=urljoin(self.base_url, "upload"),
+                json=json,
+                headers=self.headers,
+                timeout=10.0,
+            )
             data = response.json()
             if response.status_code == httpx.codes.OK:
                 if (
@@ -78,6 +91,8 @@ class NftStorage(IpfsClient):
             response = client.get(
                 url=urljoin(self.base_url, "check"),
                 params={"cid": cid},
+                headers=self.headers,
+                timeout=10.0,
             )
             data = response.json()
             if response.status_code == httpx.codes.OK:

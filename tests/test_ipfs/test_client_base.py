@@ -87,6 +87,9 @@ class TestIpfsClient:
 
     def test_api_key_missing(self, monkeypatch: MonkeyPatch) -> None:
         """Test that the client raises an error if the API key is missing."""
-        monkeypatch.delenv("NFT_STORAGE_API_KEY", raising=False)
+        monkeypatch.setattr(
+            "algobase.ipfs.client_base.config", lambda *args, **kwargs: None
+        )
+
         with pytest.raises(UndefinedValueError):
             self.Client()
