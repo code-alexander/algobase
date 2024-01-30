@@ -28,5 +28,6 @@ nav:
   - Welcome: index.md
   - How-To Guides:
       - How to Validate ARC-3 Assets and Metadata: how_to/how_to_validate_arc3.md
+      - How to Store JSON in IPFS: how_to/how_to_store_json_ipfs.md
   - Reference:
       - Reference: reference.md

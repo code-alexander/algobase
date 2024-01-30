@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      release_tag: ${{ steps.set_release_tag.outputs.release_tag }}
     strategy:
       matrix:
         python-version: ["3.11"]
@@ -48,6 +50,11 @@ jobs:
       - name: Build package
         run: |
           poetry build
+
+      - name: Set Release Tag
+        id: set_release_tag
+        run: |
+          echo "release_tag=v$(poetry version --short) $(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
@@ -116,6 +123,7 @@ jobs:
       Sign the Python 🐍 distribution 📦 with Sigstore
       and upload them to GitHub Release
     needs:
+      - build
       - publish-to-pypi
     runs-on: ubuntu-latest
 
@@ -140,7 +148,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
           gh release create
-          '${{ github.ref_name }}'
+          '${{needs.build.outputs.release_tag}}'
           --repo '${{ github.repository }}'
           --notes ""
       - name: Upload artifact signatures to GitHub Release
@@ -151,5 +159,5 @@ jobs:
         # sigstore-produced signatures and certificates.
         run: >-
           gh release upload
-          '${{ github.ref_name }}' dist/**
+          '${{needs.build.outputs.release_tag}}' dist/**
           --repo '${{ github.repository }}'
