@@ -7,7 +7,7 @@
 The documentation for `algobase` is split into four sections:
 
 1. [Tutorials - Coming Soon!](tutorials.md)
-2. [How-To Guides - Coming Soon!](how-to-guides.md)
+2. [How-To Guides](how_to/how_to_validate_arc3.md)
 3. [Reference](reference.md)
 4. [Explanation - Coming Soon!](explanation.md)
 

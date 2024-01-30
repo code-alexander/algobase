@@ -66,10 +66,11 @@ class Arc3Metadata(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    @property
-    def arc(self) -> Literal[Arc.ARC3]:
-        """Name of the Algorand ARC standard that the NFT metadata adheres to."""
-        return Arc.ARC3
+    arc: Literal[Arc.ARC3] = Field(
+        default=Arc.ARC3,
+        description="Name of the Algorand ARC standard that the NFT metadata adheres to.",
+        exclude=True,
+    )
 
     @property
     def json_str(self) -> str:

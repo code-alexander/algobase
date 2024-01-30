@@ -16,6 +16,7 @@ class TestAsa:
 
     def test_valid_dict(self, asa_nft_fixture: FixtureDict) -> None:
         """Test that validation succeeds when passed a valid dictionary."""
+        print(Asa.model_validate(asa_nft_fixture))
         assert Asa.model_validate(asa_nft_fixture)
 
     @pytest.mark.parametrize(
@@ -76,6 +77,7 @@ class TestAsa:
                         "url": "https://tether.to/#arc3",
                     },
                     "metadata": {
+                        "arc": "arc3",
                         "name": "unrelated",
                     },
                 }

@@ -102,6 +102,8 @@ def asa_nft_fixture() -> FixtureDict:
     Returns:
         FixtureDict: The dictionary of valid ASA data.
     """
+    metadata = deepcopy(arc3_metadata)
+    metadata["arc"] = "arc3"
     return {
         "asset_params": {
             "total": 1,
@@ -116,7 +118,7 @@ def asa_nft_fixture() -> FixtureDict:
             "freeze": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
             "clawback": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
         },
-        "metadata": deepcopy(arc3_metadata),
+        "metadata": metadata,
     }
 
 
@@ -142,6 +144,7 @@ def asa_nft_extra_metadata_fixture() -> FixtureDict:
             "clawback": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
         },
         "metadata": {
+            "arc": "arc3",
             "name": "My Picture",
             "description": "Lorem ipsum...",
             "image": "https://s3.amazonaws.com/your-bucket/images/{id}.png",

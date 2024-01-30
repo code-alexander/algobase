@@ -2,6 +2,11 @@ site_name: algobase
 
 theme:
   name: "material"
+  features:
+    - navigation.tabs
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - mkdocstrings:
@@ -20,8 +25,8 @@ plugins:
             unwrap_annotated: true
 
 nav:
-  - index.md
-  - tutorials.md
-  - How-To Guides: how-to-guides.md
-  - reference.md
-  - explanation.md
+  - Welcome: index.md
+  - How-To Guides:
+      - How to Validate ARC-3 Assets and Metadata: how_to/how_to_validate_arc3.md
+  - Reference:
+      - Reference: reference.md

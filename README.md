@@ -29,7 +29,7 @@ algobase uses [Pydantic](https://github.com/pydantic/pydantic) to validate and s
 
 This library is in the early stages of development.
 
-Expect breaking changes.
+The API is not stable and the code has not been audited.
 
 ## 📖 Documentation
 
