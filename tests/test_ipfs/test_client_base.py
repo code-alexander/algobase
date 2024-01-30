@@ -6,7 +6,12 @@ import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from decouple import UndefinedValueError
 
-from algobase.choices import IpfsProvider, IpfsProviderChoice
+from algobase.choices import (
+    IpfsPinStatus,
+    IpfsPinStatusChoice,
+    IpfsProvider,
+    IpfsProviderChoice,
+)
 from algobase.ipfs.client_base import IpfsClient
 
 
@@ -47,6 +52,17 @@ class TestIpfsClient:
                 str | None: The IPFS CID of the stored data, or None if the data could not be stored.
             """
             return "some_cid"
+
+        def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice | None:
+            """Returns the pinning status of a file, by CID.
+
+            Args:
+                cid (str): The CID of the file to check.
+
+            Returns:
+                IpfsPinStatusChoice | None: The status of the CID, or None if the status could not be retrieved.
+            """
+            return IpfsPinStatus.PINNED
 
     @pytest.mark.parametrize(
         "attribute, value",
