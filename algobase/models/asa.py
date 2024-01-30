@@ -28,9 +28,14 @@ class Asa(BaseModel):
     asa_type: AsaTypeChoice | None = Field(
         default=None, description="The type of the ASA."
     )
+    # arc: ArcChoice | None = Field(
+    #     default=None, description="The Algorand Request for Comments (ARC) for the ASA.",
+    #     discriminator=
+    # )
+    # = Field(discriminator='pet_type', default=None)
     asset_params: AssetParams = Field(description="AssetParams Pydantic model.")
     metadata: Arc3Metadata | None = Field(
-        default=None, description="Arc3Metadata Pydantic model."
+        default=None, description="Arc3Metadata Pydantic model.", discriminator="arc"
     )
 
     @property
