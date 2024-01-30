@@ -33,7 +33,7 @@ Expect breaking changes.
 
 ## 📖 Documentation
 
-[algobase docs] (https://code-alexander.github.io/algobase/)
+[algobase docs](https://code-alexander.github.io/algobase/)
 
 ## 🚀 Features
 
