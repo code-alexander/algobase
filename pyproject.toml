@@ -43,7 +43,7 @@ cytoolz = "^0.12.2"
 fastapi = "^0.109.0"
 python-decouple = "^3.8"
 httpx = "^0.26.0"
-pytest-httpx = "^0.28.0"
+pytest-httpx = ">=0.28,<0.30"
 python-dotenv = {extras = ["cli"], version = "^1.0.1"}
 
 
