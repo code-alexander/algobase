@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 from decouple import UndefinedValueError, config
 
-from algobase.choices import IpfsProviderChoice
+from algobase.choices import IpfsPinStatusChoice, IpfsProviderChoice
 from algobase.functional import maybe_bind
 
 
@@ -66,5 +66,17 @@ class IpfsClient(ABC):
 
         Returns:
             str | None: The IPFS CID of the stored data, or None if the data could not be stored.
+        """
+        ...  # pragma: no cover
+
+    @abstractmethod
+    def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice | None:
+        """Returns the pinning status of a file, by CID.
+
+        Args:
+            cid (str): The CID of the file to check.
+
+        Returns:
+            IpfsPinStatusChoice | None: The pin status of the CID, or None if the status could not be retrieved.
         """
         ...  # pragma: no cover

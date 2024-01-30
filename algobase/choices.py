@@ -33,3 +33,20 @@ class IpfsProvider(StrEnum):
 
 
 IpfsProviderChoice: TypeAlias = Literal[IpfsProvider.NFT_STORAGE]
+
+
+class IpfsPinStatus(StrEnum):
+    """An enumeration of IPFS pin statuses."""
+
+    QUEUED = auto()
+    PINNING = auto()
+    PINNED = auto()
+    FAILED = auto()
+
+
+IpfsPinStatusChoice: TypeAlias = Literal[
+    IpfsPinStatus.QUEUED,
+    IpfsPinStatus.PINNING,
+    IpfsPinStatus.PINNED,
+    IpfsPinStatus.FAILED,
+]

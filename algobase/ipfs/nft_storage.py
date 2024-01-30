@@ -5,7 +5,12 @@ from urllib.parse import urljoin
 
 import httpx
 
-from algobase.choices import IpfsProvider, IpfsProviderChoice
+from algobase.choices import (
+    IpfsPinStatus,
+    IpfsPinStatusChoice,
+    IpfsProvider,
+    IpfsProviderChoice,
+)
 from algobase.ipfs.client_base import IpfsClient
 
 
@@ -43,20 +48,51 @@ class NftStorage(IpfsClient):
             str | None: The IPFS CID of the stored data, or None if the data could not be stored.
         """
         with httpx.Client() as client:
-            try:
-                response = client.post(url=urljoin(self.base_url, "upload"), json=json)
-                data = response.json()
-                response.raise_for_status()
+            response = client.post(url=urljoin(self.base_url, "upload"), json=json)
+            data = response.json()
+            if response.status_code == httpx.codes.OK:
                 if (
                     data.get("ok") is True
                     and (cid := data.get("value").get("cid")) is not None
                 ):
                     return str(cid)
-            except httpx.HTTPError as e:
-                raise httpx.HTTPError(
-                    f"HTTP Exception for {e.request.url}: {e}. Provider error: {data.get('error').get('message')}"
-                )
+                else:
+                    raise httpx.HTTPError(
+                        f"HTTP Exception for {response.request.url}: Failed to store JSON in IPFS using {self.ipfs_provider_name}."
+                    )
             else:
                 raise httpx.HTTPError(
-                    f"Failed to store JSON in IPFS using {self.ipfs_provider_name}."
+                    f"HTTP Exception for {response.request.url}: {response.status_code} {data.get('error').get('message')}"
+                )
+
+    def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice | None:
+        """Returns the pinning status of a file, by CID.
+
+        Args:
+            cid (str): The CID of the file to check.
+
+        Returns:
+            IpfsPinStatusChoice | None: The pin status of the CID, or None if the status could not be retrieved.
+        """
+        with httpx.Client() as client:
+            response = client.get(
+                url=urljoin(self.base_url, "check"),
+                params={"cid": cid},
+            )
+            data = response.json()
+            if response.status_code == httpx.codes.OK:
+                pin_status = data.get("value").get("pin").get("status")
+                if (
+                    data.get("ok") is True
+                    and pin_status is not None
+                    and hasattr(IpfsPinStatus, str(pin_status).upper())
+                ):
+                    return IpfsPinStatus(pin_status)
+                else:
+                    raise httpx.HTTPError(
+                        f"HTTP Exception for {response.request.url}: {pin_status} is not a valid pin status."
+                    )
+            else:
+                raise httpx.HTTPError(
+                    f"HTTP Exception for {response.request.url}: {response.status_code} {data.get('error').get('message')}"
                 )

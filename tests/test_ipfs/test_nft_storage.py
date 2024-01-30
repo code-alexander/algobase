@@ -164,3 +164,85 @@ class TestNftStorage:
             client.store_json(
                 json='{"integer": 123, "boolean": true, "list": ["a", "b", "c"]}'
             )
+
+    def test_fetch_pin_status_successful(
+        self,
+        monkeypatch: MonkeyPatch,
+        httpx_mock: HTTPXMock,
+        nft_storage_fetch_pin_status_successful: FixtureDict,
+    ) -> None:
+        """Test that a pin status is returned when a pin status is successfully checked from nft.storage (response is mocked)."""
+        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        httpx_mock.add_response(json=nft_storage_fetch_pin_status_successful)
+
+        client = NftStorage()
+        assert (
+            client.fetch_pin_status(
+                cid="bafkreic7xfupwwdiwnzudgi6s6brjunxktdfio4hj4a5tlp2hrou7rnjvy"
+            )
+            == "pinned"
+        )
+
+    @pytest.mark.parametrize(
+        "keys, value",
+        [
+            (["ok"], False),
+            (["ok"], None),
+            (["value", "pin", "status"], None),
+            (["value", "pin", "status"], "invalid_status"),
+            (["value", "pin", "status"], "queueing"),
+        ],
+    )
+    def test_fetch_pin_status_invalid_status_or_none(
+        self,
+        monkeypatch: MonkeyPatch,
+        httpx_mock: HTTPXMock,
+        nft_storage_fetch_pin_status_successful: FixtureDict,
+        keys: list[str],
+        value: bool | None,
+    ) -> None:
+        """Test that an error is raise when a 200 response is returned but "ok" is False or pin status is None or invalid. (response is mocked)."""
+        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+
+        response_dict = nft_storage_fetch_pin_status_successful
+        reduce(dict.__getitem__, keys[:-1], response_dict)[keys[-1]] = value
+
+        httpx_mock.add_response(json=response_dict)
+
+        client = NftStorage()
+        with pytest.raises(httpx.HTTPError):
+            client.fetch_pin_status(
+                cid="bafkreic7xfupwwdiwnzudgi6s6brjunxktdfio4hj4a5tlp2hrou7rnjvy"
+            )
+
+    def test_fetch_pin_status_not_found(
+        self,
+        monkeypatch: MonkeyPatch,
+        httpx_mock: HTTPXMock,
+        nft_storage_fetch_pin_status_not_found: FixtureDict,
+    ) -> None:
+        """Test that an error is raised when a 400 response is returned (response is mocked)."""
+        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        httpx_mock.add_response(
+            json=nft_storage_fetch_pin_status_not_found, status_code=400
+        )
+
+        client = NftStorage()
+        with pytest.raises(httpx.HTTPError):
+            client.fetch_pin_status(cid="0")
+
+    def test_fetch_pin_status_internal_server_error(
+        self,
+        monkeypatch: MonkeyPatch,
+        httpx_mock: HTTPXMock,
+        nft_storage_fetch_pin_status_internal_server_error: FixtureDict,
+    ) -> None:
+        """Test that an error is raised when a 500 response is returned (response is mocked)."""
+        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        httpx_mock.add_response(
+            json=nft_storage_fetch_pin_status_internal_server_error, status_code=500
+        )
+
+        client = NftStorage()
+        with pytest.raises(httpx.HTTPError):
+            client.fetch_pin_status(cid="0")
