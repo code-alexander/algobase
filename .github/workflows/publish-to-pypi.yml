@@ -54,7 +54,7 @@ jobs:
       - name: Set Release Tag
         id: set_release_tag
         run: |
-          echo "release_tag=v$(poetry version --short) $(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo "release_tag=v$(poetry version --short)_$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
