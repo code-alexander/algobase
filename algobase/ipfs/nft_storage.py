@@ -1,7 +1,6 @@
 """IPFS client for nft.storage."""
 
 from dataclasses import dataclass
-from urllib.parse import urljoin
 
 import httpx
 
@@ -32,9 +31,9 @@ class NftStorage(IpfsClient):
         return "1.0"
 
     @property
-    def base_url(self) -> str:
+    def base_url(self) -> httpx.URL:
         """The base URL of the IPFS provider's API."""
-        return "https://api.nft.storage"
+        return httpx.URL("https://api.nft.storage")
 
     @property
     def is_api_key_required(self) -> bool:
@@ -46,18 +45,18 @@ class NftStorage(IpfsClient):
         """The headers to use for the HTTP requests."""
         return {"Authorization": f"Bearer {self.api_key}"}
 
-    def store_json(self, json: str) -> str | None:
+    def store_json(self, json: str) -> str:
         """Stores JSON data in IPFS.
 
         Args:
             json (str): The JSON to store.
 
         Returns:
-            str | None: The IPFS CID of the stored data, or None if the data could not be stored.
+            str: The IPFS CID of the stored data.
         """
         with httpx.Client() as client:
             response = client.post(
-                url=urljoin(self.base_url, "upload"),
+                url=self.base_url.join("upload"),
                 json=json,
                 headers=self.headers,
                 timeout=10.0,
@@ -78,19 +77,18 @@ class NftStorage(IpfsClient):
                     f"HTTP Exception for {response.request.url}: {response.status_code} {data.get('error').get('message')}"
                 )
 
-    def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice | None:
+    def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice:
         """Returns the pinning status of a file, by CID.
 
         Args:
             cid (str): The CID of the file to check.
 
         Returns:
-            IpfsPinStatusChoice | None: The pin status of the CID, or None if the status could not be retrieved.
+            IpfsPinStatusChoice: The pin status of the CID.
         """
         with httpx.Client() as client:
             response = client.get(
-                url=urljoin(self.base_url, "check"),
-                params={"cid": cid},
+                url=self.base_url.join(f"check/{cid}"),
                 headers=self.headers,
                 timeout=10.0,
             )

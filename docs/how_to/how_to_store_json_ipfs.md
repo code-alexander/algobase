@@ -1,4 +1,4 @@
-# How to Store JSON in IPFS
+# How to Store and Pin JSON in IPFS
 
 ## ⚠️ Warning
 
@@ -20,7 +20,13 @@ Sign up for an [nft.storage account](https://nft.storage/docs/#create-an-account
 
 You will need to set the API key as an environment variable called `NFT_STORAGE_API_KEY`, or add it to your .env file.
 
-To set the environment variable in Python:
+`algobase` uses the [dotenv](https://github.com/theskumar/python-dotenv/tree/main?tab=readme-ov-file#command-line-interface) library. You can use its CLI to set the variable:
+
+```
+dotenv set NFT_STORAGE_API_KEY <your-api-key>
+```
+
+Otherwise, to set the environment variable in Python:
 
 ```python
 import os
@@ -28,13 +34,7 @@ import os
 os.environ["NFT_STORAGE_API_KEY"] = "<your-api-key>"
 ```
 
-`algobase` uses the [dotenv](https://github.com/theskumar/python-dotenv/tree/main?tab=readme-ov-file#command-line-interface) library. You can use its CLI to set the variable:
-
-```
-dotenv set NFT_STORAGE_API_KEY <your-api-key>
-```
-
-## How to Store JSON in IPFS
+## How to Store JSON in IPFS and Check it's Pinned
 
 ```python
 from algobase.ipfs.nft_storage import NftStorage
@@ -50,5 +50,13 @@ cid = client.store_json(
 print(f"Stored JSON on IPFS with CID {cid}")
 """
 Stored JSON on IPFS with CID bafkreiaci6q6dolsy32cnqhtmgvf23gzphzzc7urfnka2omgzn7behvbx4
+"""
+
+# Check IPFS pin status ('queued', 'pinning', 'pinned', or 'failed')
+pin_status = client.fetch_pin_status(cid)
+
+print(f"IPFS pin status for CID {cid} is '{pin_status}'")
+"""
+IPFS pin status for CID bafkreiaci6q6dolsy32cnqhtmgvf23gzphzzc7urfnka2omgzn7behvbx4 is 'pinned'
 """
 ```

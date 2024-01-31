@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 
+import httpx
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from decouple import UndefinedValueError
@@ -33,34 +34,34 @@ class TestIpfsClient:
             return "1.0"
 
         @property
-        def base_url(self) -> str:
+        def base_url(self) -> httpx.URL:
             """The base URL of the IPFS provider's API."""
-            return "https://api.nft.storage"
+            return httpx.URL("https://api.nft.storage")
 
         @property
         def is_api_key_required(self) -> bool:
             """Whether the IPFS provider requires an API key."""
             return True
 
-        def store_json(self, json: str) -> str | None:
+        def store_json(self, json: str) -> str:
             """Stores JSON data in IPFS.
 
             Args:
                 json (str): The JSON to store.
 
             Returns:
-                str | None: The IPFS CID of the stored data, or None if the data could not be stored.
+                str: The IPFS CID of the stored data.
             """
             return "some_cid"
 
-        def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice | None:
+        def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice:
             """Returns the pinning status of a file, by CID.
 
             Args:
                 cid (str): The CID of the file to check.
 
             Returns:
-                IpfsPinStatusChoice | None: The status of the CID, or None if the status could not be retrieved.
+                IpfsPinStatusChoice: The status of the CID.
             """
             return IpfsPinStatus.PINNED
 
