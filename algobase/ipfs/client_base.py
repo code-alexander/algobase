@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 
+import httpx
 from decouple import UndefinedValueError, config
 
 from algobase.choices import IpfsPinStatusChoice, IpfsProviderChoice
@@ -30,7 +31,7 @@ class IpfsClient(ABC):
 
     @property
     @abstractmethod
-    def base_url(self) -> str:
+    def base_url(self) -> httpx.URL:
         """The base URL of the IPFS provider's API."""
         ...  # pragma: no cover
 
@@ -58,25 +59,25 @@ class IpfsClient(ABC):
             )
 
     @abstractmethod
-    def store_json(self, json: str) -> str | None:
+    def store_json(self, json: str) -> str:
         """Stores JSON data in IPFS.
 
         Args:
             json (str): The JSON to store.
 
         Returns:
-            str | None: The IPFS CID of the stored data, or None if the data could not be stored.
+            str: The IPFS CID of the stored data.
         """
         ...  # pragma: no cover
 
     @abstractmethod
-    def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice | None:
+    def fetch_pin_status(self, cid: str) -> IpfsPinStatusChoice:
         """Returns the pinning status of a file, by CID.
 
         Args:
             cid (str): The CID of the file to check.
 
         Returns:
-            IpfsPinStatusChoice | None: The pin status of the CID, or None if the status could not be retrieved.
+            IpfsPinStatusChoice: The pin status of the CID.
         """
         ...  # pragma: no cover
