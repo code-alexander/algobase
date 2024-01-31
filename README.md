@@ -19,7 +19,7 @@ A type-safe Python library for interacting with assets on Algorand.
 
 ## 💡 Motivation
 
-algobase aims to provide a first-class developer experience for creating, managing, and querying Algorand ASAs.
+`algobase` aims to provide a first-class developer experience for creating, managing, and querying Algorand ASAs.
 
 It's designed to be easy to use, extensible, and compliant with [Algorand ARC](https://arc.algorand.foundation/) standards.
 
