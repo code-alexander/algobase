@@ -1,6 +1,6 @@
 """Example showing how to store JSON in IPFS.
 
-Make sure the `NFT_STORAGE_API_KEY` is set before running.
+Make sure the environment variable `AB_NFT_STORAGE_API_KEY` is set before running.
 """
 
 from algobase.ipfs.nft_storage import NftStorage

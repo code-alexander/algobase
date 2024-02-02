@@ -50,3 +50,44 @@ IpfsPinStatusChoice: TypeAlias = Literal[
     IpfsPinStatus.PINNED,
     IpfsPinStatus.FAILED,
 ]
+
+
+class AlgorandNetwork(StrEnum):
+    """An enumeration of Algorand networks."""
+
+    LOCALNET = auto()
+    TESTNET = auto()
+    MAINNET = auto()
+
+
+AlgorandNetworkChoice: TypeAlias = Literal[
+    AlgorandNetwork.LOCALNET, AlgorandNetwork.TESTNET, AlgorandNetwork.MAINNET
+]
+
+
+class AlgorandApi(StrEnum):
+    """An enumeration of Algorand APIs."""
+
+    ALGOD = auto()
+    INDEXER = auto()
+    KMD = auto()
+
+
+AlgorandApiChoice: TypeAlias = Literal[
+    AlgorandApi.ALGOD, AlgorandApi.INDEXER, AlgorandApi.KMD
+]
+
+
+class AlgorandApiProvider(StrEnum):
+    """An enumeration of Algorand API providers."""
+
+    LOCALHOST = auto()
+    CUSTOM = auto()
+    ALGONODE = auto()
+
+
+AlgorandApiProviderChoice: TypeAlias = Literal[
+    AlgorandApiProvider.LOCALHOST,
+    AlgorandApiProvider.CUSTOM,
+    AlgorandApiProvider.ALGONODE,
+]

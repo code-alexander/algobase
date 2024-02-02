@@ -18,12 +18,12 @@ Make sure `algobase` is intalled before you start this tutorial (see intructions
 
 Sign up for an [nft.storage account](https://nft.storage/docs/#create-an-account) and create an [API key](https://nft.storage/docs/#get-an-api-token).
 
-You will need to set the API key as an environment variable called `NFT_STORAGE_API_KEY`, or add it to your .env file.
+You will need to set the API key as an environment variable called `AB_NFT_STORAGE_API_KEY`, or add it to your .env file.
 
 `algobase` uses the [dotenv](https://github.com/theskumar/python-dotenv/tree/main?tab=readme-ov-file#command-line-interface) library. You can use its CLI to set the variable:
 
 ```
-dotenv set NFT_STORAGE_API_KEY <your-api-key>
+dotenv set AB_NFT_STORAGE_API_KEY <your-api-key>
 ```
 
 Otherwise, to set the environment variable in Python:
@@ -31,7 +31,7 @@ Otherwise, to set the environment variable in Python:
 ```python
 import os
 
-os.environ["NFT_STORAGE_API_KEY"] = "<your-api-key>"
+os.environ["AB_NFT_STORAGE_API_KEY"] = "<your-api-key>"
 ```
 
 ## How to Store JSON in IPFS and Check it's Pinned
