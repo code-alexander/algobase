@@ -8,6 +8,7 @@ import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from pytest_httpx import HTTPXMock
 
+import algobase.config as config
 import algobase.ipfs.nft_storage as client
 from algobase.choices import IpfsProvider, IpfsProviderChoice
 from tests.types import FixtureDict
@@ -33,16 +34,16 @@ class TestNftStorage:
         value: str | bool | IpfsProviderChoice,
     ) -> None:
         """Test that the client has the required abstract properties."""
-        monkeypatch.setattr(
-            "algobase.config.settings.nft_storage_api_key", "test_api_key"
-        )
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
         reload(client)
         test_client = client.NftStorage()
         assert getattr(test_client, attribute) == value
 
     def test_api_key_missing(self, monkeypatch: MonkeyPatch) -> None:
         """Test that the client raises an error if the API key is missing."""
-        monkeypatch.setattr("algobase.config.settings.nft_storage_api_key", None)
+        monkeypatch.delenv("AB_NFT_STORAGE_API_KEY", raising=False)
+        reload(config)
         reload(client)
         with pytest.raises(ValueError):
             client.NftStorage()
@@ -54,9 +55,10 @@ class TestNftStorage:
         nft_storage_store_json_successful: FixtureDict,
     ) -> None:
         """Test that a CID is returned when JSON is successfully stored in IPFS (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
         httpx_mock.add_response(json=nft_storage_store_json_successful)
-
         test_client = client.NftStorage()
         assert (
             test_client.store_json(
@@ -82,7 +84,9 @@ class TestNftStorage:
         value: bool | None,
     ) -> None:
         """Test that an error is raise when a 200 response is returned but "ok" is False or "cid" is None (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
 
         response_dict = nft_storage_store_json_successful
         reduce(dict.__getitem__, keys[:-1], response_dict)[keys[-1]] = value
@@ -102,7 +106,9 @@ class TestNftStorage:
         nft_storage_store_json_bad_request: FixtureDict,
     ) -> None:
         """Test that an error is raised when a 400 response is returned (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
 
         httpx_mock.add_response(
             json=nft_storage_store_json_bad_request, status_code=400
@@ -121,7 +127,9 @@ class TestNftStorage:
         nft_storage_store_json_unauthorized: FixtureDict,
     ) -> None:
         """Test that an error is raised when a 401 response is returned (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
 
         httpx_mock.add_response(
             json=nft_storage_store_json_unauthorized, status_code=401
@@ -140,7 +148,9 @@ class TestNftStorage:
         nft_storage_store_json_forbidden: FixtureDict,
     ) -> None:
         """Test that an error is raised when a 403 response is returned (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
 
         httpx_mock.add_response(json=nft_storage_store_json_forbidden, status_code=403)
 
@@ -157,7 +167,9 @@ class TestNftStorage:
         nft_storage_store_json_internal_server_error: FixtureDict,
     ) -> None:
         """Test that an error is raised when a 500 response is returned (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
 
         httpx_mock.add_response(
             json=nft_storage_store_json_internal_server_error, status_code=500
@@ -176,7 +188,9 @@ class TestNftStorage:
         nft_storage_fetch_pin_status_successful: FixtureDict,
     ) -> None:
         """Test that a pin status is returned when a pin status is successfully checked from nft.storage (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
         httpx_mock.add_response(json=nft_storage_fetch_pin_status_successful)
 
         test_client = client.NftStorage()
@@ -206,7 +220,9 @@ class TestNftStorage:
         value: bool | None,
     ) -> None:
         """Test that an error is raise when a 200 response is returned but "ok" is False or pin status is None or invalid. (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
 
         response_dict = nft_storage_fetch_pin_status_successful
         reduce(dict.__getitem__, keys[:-1], response_dict)[keys[-1]] = value
@@ -226,7 +242,9 @@ class TestNftStorage:
         nft_storage_fetch_pin_status_not_found: FixtureDict,
     ) -> None:
         """Test that an error is raised when a 400 response is returned (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
         httpx_mock.add_response(
             json=nft_storage_fetch_pin_status_not_found, status_code=400
         )
@@ -242,7 +260,9 @@ class TestNftStorage:
         nft_storage_fetch_pin_status_internal_server_error: FixtureDict,
     ) -> None:
         """Test that an error is raised when a 500 response is returned (response is mocked)."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
+        monkeypatch.setenv("AB_NFT_STORAGE_API_KEY", "test_api_key")
+        reload(config)
+        reload(client)
         httpx_mock.add_response(
             json=nft_storage_fetch_pin_status_internal_server_error, status_code=500
         )
