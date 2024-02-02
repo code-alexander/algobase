@@ -3,10 +3,8 @@
 from abc import ABC, abstractmethod
 
 import httpx
-from decouple import UndefinedValueError, config
 
 from algobase.choices import IpfsPinStatusChoice, IpfsProviderChoice
-from algobase.functional import maybe_bind
 
 
 class IpfsClient(ABC):
@@ -42,20 +40,16 @@ class IpfsClient(ABC):
         ...  # pragma: no cover
 
     @property
-    def api_key_name(self) -> str:
-        """The name of the IPFS provider's API key."""
-        return f"{self.ipfs_provider_name.upper()}_API_KEY"
-
-    @property
+    @abstractmethod
     def api_key(self) -> str | None:
-        """The IPFS provider's API key."""
-        return maybe_bind(config(self.api_key_name, default=None), str)
+        """The API key."""
+        ...  # pragma: no cover
 
     def check_api_key_is_present(self) -> None:
         """Checks that the IPFS provider's API key is present."""
         if self.is_api_key_required and self.api_key is None:
-            raise UndefinedValueError(
-                f"`{self.api_key_name}` must be defined in .env file."
+            raise ValueError(
+                f"API key for {self.ipfs_provider_name} must be defined in .env file."
             )
 
     @abstractmethod

@@ -749,3 +749,6 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/osx,python,pycharm,windows,visualstudio,visualstudiocode
+
+# Ignore dynaconf secret files
+.secrets.*

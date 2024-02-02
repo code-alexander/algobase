@@ -10,6 +10,8 @@ from algobase.choices import (
     IpfsProvider,
     IpfsProviderChoice,
 )
+from algobase.config import settings
+from algobase.functional import maybe_bind
 from algobase.ipfs.client_base import IpfsClient
 
 
@@ -39,6 +41,11 @@ class NftStorage(IpfsClient):
     def is_api_key_required(self) -> bool:
         """Whether the IPFS provider requires an API key."""
         return True
+
+    @property
+    def api_key(self) -> str | None:
+        """The API key."""
+        return maybe_bind(settings.get("nft_storage_api_key"), str)
 
     @property
     def headers(self) -> dict[str, str]:

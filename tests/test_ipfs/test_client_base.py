@@ -4,8 +4,6 @@ from dataclasses import dataclass
 
 import httpx
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
-from decouple import UndefinedValueError
 
 from algobase.choices import (
     IpfsPinStatus,
@@ -43,6 +41,11 @@ class TestIpfsClient:
             """Whether the IPFS provider requires an API key."""
             return True
 
+        @property
+        def api_key(self) -> str | None:
+            """The API key."""
+            return "test_api_key"
+
         def store_json(self, json: str) -> str:
             """Stores JSON data in IPFS.
 
@@ -72,25 +75,23 @@ class TestIpfsClient:
             ("base_url", "https://api.nft.storage"),
             ("is_api_key_required", True),
             ("ipfs_provider_name", IpfsProvider.NFT_STORAGE),
-            ("api_key_name", "NFT_STORAGE_API_KEY"),
+            ("api_key", "test_api_key"),
         ],
     )
     def test_properties(
         self,
-        monkeypatch: MonkeyPatch,
         attribute: str,
         value: str | bool | IpfsProviderChoice,
     ) -> None:
         """Test that the client has the required abstract properties."""
-        monkeypatch.setenv("NFT_STORAGE_API_KEY", "SOME_API_KEY")
         client = self.Client()
         assert getattr(client, attribute) == value
 
-    def test_api_key_missing(self, monkeypatch: MonkeyPatch) -> None:
+    def test_api_key_missing(self) -> None:
         """Test that the client raises an error if the API key is missing."""
-        monkeypatch.setattr(
-            "algobase.ipfs.client_base.config", lambda *args, **kwargs: None
-        )
 
-        with pytest.raises(UndefinedValueError):
-            self.Client()
+        class Missing(self.Client):  # type: ignore
+            api_key = None
+
+        with pytest.raises(ValueError):
+            Missing()
