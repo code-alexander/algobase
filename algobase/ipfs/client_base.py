@@ -1,10 +1,12 @@
 """Abstract base class for IPFS clients."""
 
 from abc import ABC, abstractmethod
+from typing import Self
 
 import httpx
 
 from algobase.choices import IpfsPinStatusChoice, IpfsProviderChoice
+from algobase.settings import Settings
 
 
 class IpfsClient(ABC):
@@ -14,6 +16,11 @@ class IpfsClient(ABC):
         """If an API key is required, check that it is present."""
         if self.is_api_key_required:
             self.check_api_key_is_present()
+
+    @abstractmethod
+    def from_settings(cls, settings: Settings) -> Self:
+        """Create an instance of the IPFS client from a settings object."""
+        ...  # pragma: no cover
 
     @property
     @abstractmethod

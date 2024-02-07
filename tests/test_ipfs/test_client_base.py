@@ -1,6 +1,7 @@
 """Tests the IpfsClient abstract base class."""
 
 from dataclasses import dataclass
+from typing import Self
 
 import httpx
 import pytest
@@ -12,6 +13,7 @@ from algobase.choices import (
     IpfsProviderChoice,
 )
 from algobase.ipfs.client_base import IpfsClient
+from algobase.settings import Settings
 
 
 class TestIpfsClient:
@@ -20,6 +22,11 @@ class TestIpfsClient:
     @dataclass
     class Client(IpfsClient):
         """Concrete implementation of the IpfsClient abstract base class."""
+
+        @classmethod
+        def from_settings(cls, settings: Settings) -> Self:
+            """Create an instance of the IPFS client from a settings object."""
+            return cls()
 
         @property
         def ipfs_provider_name(self) -> IpfsProviderChoice:

@@ -4,7 +4,7 @@ from typing import TypeVar
 
 import pytest
 
-from algobase.functional import maybe_bind
+from algobase.functional import maybe_bind, pipe
 
 T = TypeVar("T")
 
@@ -27,3 +27,16 @@ def test_maybe_bind_cast_none(x: None, f: type[T]) -> None:
     """Test that maybe_bind() returns None when casting None."""
     assert maybe_bind(x, f) is None
     assert maybe_bind(x, f) == x
+
+
+def test_pipe() -> None:
+    """Tests the pipe function."""
+
+    def f(x: int) -> str:
+        return str(x)
+
+    def g(x: str) -> bool:
+        return x == "1"
+
+    assert pipe(1, f, g) is True
+    assert pipe(1, f, g) == g(f(1))
