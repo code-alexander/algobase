@@ -1,6 +1,7 @@
 """IPFS client for nft.storage."""
 
 from dataclasses import dataclass
+from typing import Self
 
 import httpx
 
@@ -10,9 +11,8 @@ from algobase.choices import (
     IpfsProvider,
     IpfsProviderChoice,
 )
-from algobase.config import settings
-from algobase.functional import maybe_bind
 from algobase.ipfs.client_base import IpfsClient
+from algobase.settings import Settings
 
 
 @dataclass
@@ -21,6 +21,13 @@ class NftStorage(IpfsClient):
 
     Requires the `NFT_STORAGE_API_KEY` environment variable to be set.
     """
+
+    _api_key: str | None
+
+    @classmethod
+    def from_settings(cls, settings: Settings) -> Self:
+        """Create an instance of the IPFS client from the settings object."""
+        return cls(_api_key=settings.nft_storage_api_key)
 
     @property
     def ipfs_provider_name(self) -> IpfsProviderChoice:
@@ -45,7 +52,7 @@ class NftStorage(IpfsClient):
     @property
     def api_key(self) -> str | None:
         """The API key."""
-        return maybe_bind(settings.get("nft_storage_api_key"), str)
+        return self._api_key
 
     @property
     def headers(self) -> dict[str, str]:

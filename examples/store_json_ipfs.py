@@ -4,9 +4,13 @@ Make sure the environment variable `AB_NFT_STORAGE_API_KEY` is set before runnin
 """
 
 from algobase.ipfs.nft_storage import NftStorage
+from algobase.settings import Settings
 
-# Instantiate the client object
-client = NftStorage()
+# Fetch settings from the environment
+settings = Settings()
+
+# Instantiate the client object by piping settings to it
+client = settings | NftStorage.from_settings
 
 # Store JSON in IPFS (returns the CID of the file if successful)
 cid = client.store_json(
