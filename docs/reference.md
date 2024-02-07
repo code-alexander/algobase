@@ -2,6 +2,8 @@
 ::: algobase.models.arc3
 ::: algobase.models.asa
 
+::: algobase.algorand.client
+
 ::: algobase.ipfs.client_base
 ::: algobase.ipfs.nft_storage
 
@@ -11,3 +13,4 @@
 ::: algobase.utils.validate
 
 ::: algobase.functional
+::: algobase.settings
