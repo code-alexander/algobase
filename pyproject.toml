@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "algobase"
-version = "0.11.0"
+version = "0.12.0"
 description = "A type-safe Python library for interacting with assets on Algorand."
 readme = "README.md"
 authors = ["algobase <alexandercodes@proton.me>"]
@@ -44,6 +44,8 @@ fastapi = "^0.109.0"
 httpx = "^0.26.0"
 pytest-httpx = "0.29.0"
 pydantic-settings = "^2.1.0"
+mypy = "^1.8.0"
+returns = "^0.22.0"
 
 
 [tool.poetry.plugins."poetry.application.plugin"]
@@ -52,7 +54,6 @@ export = "poetry_plugin_export.plugins:ExportApplicationPlugin"
 
 [tool.poetry.group.dev.dependencies]
 bandit = "^1.7.6"
-mypy = "^1.8.0"
 mypy-extensions = "^1.0.0"
 pre-commit = "^3.6.0"
 pydocstyle = "^6.3.0"
@@ -69,6 +70,7 @@ black = {version = "^24.1a1", allow-prereleases = true}
 mkdocs = "^1.5.3"
 mkdocstrings = {extras = ["python"], version = "^0.24.0"}
 mkdocs-material = "^9.5.6"
+datamodel-code-generator = "^0.25.3"
 
 [tool.ruff]
 target-version = "py311"

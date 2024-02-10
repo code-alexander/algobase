@@ -1,6 +1,8 @@
 ::: algobase.models.asset_params
 ::: algobase.models.arc3
 ::: algobase.models.asa
+::: algobase.models.algod
+::: algobase.models.kmd
 
 ::: algobase.algorand.client
 
@@ -12,5 +14,6 @@
 ::: algobase.utils.url
 ::: algobase.utils.validate
 
+::: algobase.choices
 ::: algobase.functional
 ::: algobase.settings
