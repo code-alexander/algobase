@@ -1,7 +1,7 @@
 """Functions for type casting."""
 
 from collections.abc import Callable, Iterable
-from typing import ParamSpec, TypeVar
+from typing import Any, ParamSpec, TypeVar
 
 A = TypeVar("A")
 B = TypeVar("B")
@@ -49,15 +49,14 @@ T = TypeVar("T")
 P = ParamSpec("P")
 
 
-def provide_context(*args: P.args, **kwargs: P.kwargs) -> Callable[[Callable[P, T]], T]:
+def provide_context(**kwargs: Any) -> Callable[..., T]:
     """A closure that provides context arguments to a function.
 
     Args:
-        *args: Variable length argument list.
         **kwargs: Arbitrary keyword arguments.
 
     Returns:
-        Callable[[Callable[P, T]], T]: The wrapped function.
+        Callable[..., T]: The wrapped function.
     """
 
     def wrapped(fn: Callable[P, T], *fn_args: P.args, **fn_kwargs: P.kwargs) -> T:
@@ -71,6 +70,11 @@ def provide_context(*args: P.args, **kwargs: P.kwargs) -> Callable[[Callable[P, 
         Returns:
             T: The result of calling the function.
         """
-        return fn(*args, *fn_args, **kwargs, **fn_kwargs)
+        inject = {
+            k: v
+            for k, v in kwargs.items()
+            if k in fn.__code__.co_varnames[len(fn_args) :]
+        }
+        return fn(*fn_args, **{**inject, **fn_kwargs})
 
     return wrapped
