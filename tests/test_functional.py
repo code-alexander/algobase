@@ -31,13 +31,13 @@ def test_maybe_apply_cast_none(x: None, f: type[T]) -> None:
 
 def test_provide_context() -> None:
     """Tests the provide_context() function."""
-    context = provide_context(1, 2, 3, a=4, b=5, c=6)
+    context = provide_context(a=4, b=5, c=6)
 
     def f(x, y, z, a, b, c):
         """Function that accepts context arguments."""
         return x + y + z + a + b + c
 
-    assert context(f) == 21
+    assert context(f, 1, 2, z=3) == 21
 
 
 def test_first_true() -> None:
