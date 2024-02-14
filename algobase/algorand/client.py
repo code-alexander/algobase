@@ -171,9 +171,15 @@ def get_default_account(
         algod_client (AlgodClient): The Algod client.
         kmd_client (KMDClient): The KMD client.
 
+    Raises:
+        ValueError: If the Algod client instance isn't connected to a localnet network.
+
     Returns:
         Account | None: The matching account if found, else None.
     """
+    if not is_localnet(algod_client):
+        raise ValueError("Algod client must be connected to a localnet network.")
+
     return flow(
         find_wallet_id(kmd_client, "unencrypted-default-wallet"),
         partial(kmd_client.init_wallet_handle, password=""),
@@ -184,3 +190,19 @@ def get_default_account(
             Account.from_private_key,
         ),
     )
+
+
+def is_localnet(algod_client: AlgodClient) -> bool:
+    """Check if the AlgodClient is connected to a localnet.
+
+    Args:
+        algod_client (AlgodClient): The AlgodClient instance.
+
+    Returns:
+        bool: True if the client is connected to a localnet, else False.
+    """
+    return algod_client.suggested_params().gen in {
+        "devnet-v1",
+        "sandnet-v1",
+        "dockernet-v1",
+    }
