@@ -1,5 +1,7 @@
 """Test the Algorand client classes and functions."""
 
+from types import SimpleNamespace
+
 import pytest
 from algosdk.kmd import KMDClient
 from algosdk.v2client.algod import AlgodClient
@@ -18,6 +20,7 @@ from algobase.algorand.client import (
     find_wallet_id,
     get_default_account,
     is_default_account,
+    is_localnet,
     match_account,
 )
 from algobase.choices import AlgorandApi, AlgorandApiChoice
@@ -261,6 +264,9 @@ def test_get_default_account() -> None:
                 "total-created-assets": 0,
             }
 
+        def suggested_params(self) -> SimpleNamespace:
+            return SimpleNamespace(gen="dockernet-v1")
+
     class MockKmdClient:
         def list_wallets(self) -> list[dict[str, object]]:
             return [
@@ -303,3 +309,37 @@ def test_get_default_account() -> None:
     assert (
         account.address == "UYAUCPT2B475MESZAIA4BULTWIQM23VBPHQOLKKOPD7JRFB5QS4L3BOFUM"
     )
+
+    # Test that a ValueError is raised if the Algod client isn't connected to a localnet.
+    class MockMainnetClient(MockAlgodClient):
+        def suggested_params(self) -> SimpleNamespace:
+            return SimpleNamespace(gen="mainnet-v1")
+
+    algod_client = MockMainnetClient()
+
+    with pytest.raises(ValueError):
+        get_default_account(algod_client, kmd_client)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "gen, expected",
+    [
+        ("mainnet-v1", False),
+        ("testnet-v1", False),
+        ("betanet-v1", False),
+        ("devnet-v1", True),
+        ("sandnet-v1", True),
+        ("dockernet-v1", True),
+        (None, False),
+    ],
+)
+def test_is_localnet_true(gen: str | None, expected: bool) -> None:
+    """Test the is_localnet() function."""
+
+    class MockAlgodClient:
+        """Mock AlgodClient class."""
+
+        def suggested_params(self) -> SimpleNamespace:
+            return SimpleNamespace(gen=gen)
+
+    assert is_localnet(MockAlgodClient()) is expected  # type: ignore[arg-type]
