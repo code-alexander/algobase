@@ -60,11 +60,11 @@ class IpfsClient(ABC):
             )
 
     @abstractmethod
-    def store_json(self, json: str) -> str:
+    def store_json(self, json: str | bytes) -> str:
         """Stores JSON data in IPFS.
 
         Args:
-            json (str): The JSON to store.
+            json (str | bytes): The JSON to store.
 
         Returns:
             str: The IPFS CID of the stored data.

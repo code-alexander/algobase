@@ -59,11 +59,11 @@ class NftStorage(IpfsClient):
         """The headers to use for the HTTP requests."""
         return {"Authorization": f"Bearer {self.api_key}"}
 
-    def store_json(self, json: str) -> str:
+    def store_json(self, json: str | bytes) -> str:
         """Stores JSON data in IPFS.
 
         Args:
-            json (str): The JSON to store.
+            json (str | bytes): The JSON to store.
 
         Returns:
             str: The IPFS CID of the stored data.
@@ -71,7 +71,7 @@ class NftStorage(IpfsClient):
         with httpx.Client() as client:
             response = client.post(
                 url=self.base_url.join("upload"),
-                json=json,
+                content=json,
                 headers=self.headers,
                 timeout=10.0,
             )

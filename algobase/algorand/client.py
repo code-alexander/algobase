@@ -143,7 +143,7 @@ def match_account(
     algod_client: AlgodClient,
     addresses: list[str],
     predicate: Callable[[algod.Account], bool],
-) -> str | None:
+) -> str:
     """Find the first account that matches the predicate, given a list of addresses to lookup.
 
     Args:
@@ -151,44 +151,84 @@ def match_account(
         addresses (list[str]): The addresses to check.
         predicate (Callable[[algod.Account], bool]): The predicate function.
 
+    Raises:
+        ValueError: If no account is found where predicate(account) is True.
+
     Returns:
-        str | None: The address of the matching account if found, else None.
+        str: The address of the matching account if found, else None.
     """
-    return first_true(
+    matched = first_true(
         addresses,
         predicate=lambda x: flow(
             x, algod_client.account_info, algod.Account.model_validate, predicate
         ),
     )
+    if matched is None:
+        raise ValueError("No account found.")
+    return matched
+
+
+# def check_account_balance(algod_client: AlgodClient, account: Account) -> int:
+#     """Check the balance of an account.
+
+#     Args:
+#         algod_client (AlgodClient): The Algod client.
+#         account (Account): The account to check.
+
+#     Returns:
+#         int: The balance of the account in MicroAlgos.
+#     """
+
+#     return algod.Account.model_validate(algod_client.account_info(account.address)).amount
+
+# def fund_with_microalgos(algod_client: AlgodClient, account: Account) -> bool:
+#     params = algod_client.suggested_params()
+
+#     transaction = PaymentTxn(
+#             sender=account.address,
+#             sp=algod_client.suggested_params(),
+#             receiver: Unknown,
+#             amt: Unknown,
+#             close_remainder_to: Unknown | None = None,
+#             note: Unknown | None = None,
+#             lease: Unknown | None = None,
+#             rekey_to: Unknown | None = None
+
+#     )
+
+#     return True
 
 
 def get_default_account(
-    algod_client: AlgodClient, kmd_client: KMDClient
-) -> Account | None:
+    algod_client: AlgodClient, kmd_client: KMDClient | None = None
+) -> Account:
     """Return an Account instance for the default account.
 
     Args:
         algod_client (AlgodClient): The Algod client.
-        kmd_client (KMDClient): The KMD client.
+        kmd_client (KMDClient | None, optional): The KMD client. If None, a default instance will be created. Defaults to None.
 
     Raises:
         ValueError: If the Algod client instance isn't connected to a localnet network.
 
     Returns:
-        Account | None: The matching account if found, else None.
+        Account: The default account.
     """
     if not is_localnet(algod_client):
         raise ValueError("Algod client must be connected to a localnet network.")
 
+    kmd_client = kmd_client or create_localnet_kmd_client()
+
+    wallet_handle = kmd_client.init_wallet_handle(
+        find_wallet_id(kmd_client, "unencrypted-default-wallet"), ""
+    )
+
     return flow(
-        find_wallet_id(kmd_client, "unencrypted-default-wallet"),
-        partial(kmd_client.init_wallet_handle, password=""),
-        lambda handle: flow(
-            kmd_client.list_keys(handle),
-            partial(match_account, algod_client, predicate=is_default_account),
-            partial(kmd_client.export_key, handle, ""),
-            Account.from_private_key,
-        ),
+        wallet_handle,
+        kmd_client.list_keys,
+        lambda keys: match_account(algod_client, keys, is_default_account),
+        partial(kmd_client.export_key, wallet_handle, ""),
+        Account.from_private_key,
     )
 
 
