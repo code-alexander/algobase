@@ -6,7 +6,7 @@ Spec: https://github.com/algorand/go-algorand/blob/master/daemon/algod/api/algod
 
 
 from enum import StrEnum, auto
-from typing import Annotated
+from typing import Annotated, Any
 
 from pydantic import BaseModel, Field, RootModel
 
@@ -319,3 +319,92 @@ class Account(BaseModel):
         alias="total-created-assets",
         description="The count of all assets (AssetParams objects) created by this account.",
     )
+
+
+class EvalDelta(BaseModel):
+    """EvalDelta."""
+
+    action: int = Field(..., description="\\[at\\] delta action.")
+    bytes: str | None = Field(None, description="\\[bs\\] bytes value.")
+    uint: int | None = Field(None, description="\\[ui\\] uint value.")
+
+
+class EvalDeltaKeyValue(BaseModel):
+    """EvalDeltaKeyValue."""
+
+    key: str
+    value: EvalDelta
+
+
+# Application state delta
+StateDelta = RootModel[list[EvalDeltaKeyValue]]
+
+
+class AccountStateDelta(BaseModel):
+    """AccountStateDelta."""
+
+    address: str
+    delta: StateDelta
+
+
+class PendingTransactionResponse(BaseModel):
+    """PendingTransactionResponse."""
+
+    application_index: int | None = Field(
+        None,
+        alias="application-index",
+        description="The application index if the transaction was found and it created an application.",
+    )
+    asset_closing_amount: int | None = Field(
+        None,
+        alias="asset-closing-amount",
+        description="The number of the asset's unit that were transferred to the close-to address.",
+    )
+    asset_index: int | None = Field(
+        None,
+        alias="asset-index",
+        description="The asset index if the transaction was found and it created an asset.",
+    )
+    close_rewards: int | None = Field(
+        None,
+        alias="close-rewards",
+        description="Rewards in microalgos applied to the close remainder to account.",
+    )
+    closing_amount: int | None = Field(
+        None, alias="closing-amount", description="Closing amount for the transaction."
+    )
+    confirmed_round: int | None = Field(
+        None,
+        alias="confirmed-round",
+        description="The round where this transaction was confirmed, if present.",
+    )
+    global_state_delta: StateDelta | None = Field(None, alias="global-state-delta")
+    inner_txns: list["PendingTransactionResponse"] | None = Field(
+        None,
+        alias="inner-txns",
+        description="Inner transactions produced by application execution.",
+    )
+    local_state_delta: list[AccountStateDelta] | None = Field(
+        None,
+        alias="local-state-delta",
+        description="Local state key/value changes for the application being executed by this transaction.",
+    )
+    logs: list[str] | None = Field(
+        None, description="Logs for the application being executed by this transaction."
+    )
+    pool_error: str = Field(
+        ...,
+        alias="pool-error",
+        description="Indicates that the transaction was kicked out of this node's transaction pool (and specifies why that happened).  An empty string indicates the transaction wasn't kicked out of this node's txpool due to an error.\n",
+    )
+    receiver_rewards: int | None = Field(
+        None,
+        alias="receiver-rewards",
+        description="Rewards in microalgos applied to the receiver account.",
+    )
+    sender_rewards: int | None = Field(
+        None,
+        alias="sender-rewards",
+        description="Rewards in microalgos applied to the sender account.",
+    )
+    txn: dict[str, Any] = Field(..., description="The raw signed transaction.")

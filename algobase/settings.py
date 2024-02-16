@@ -20,7 +20,9 @@ T = TypeVar("T")
 class Settings(BaseSettings):
     """Pydantic model for algobase settings."""
 
-    model_config = SettingsConfigDict(env_prefix="AB_")
+    model_config = SettingsConfigDict(
+        env_prefix="AB_", env_file=".env", env_file_encoding="utf-8"
+    )
 
     algorand_network: AlgorandNetworkChoice = Field(
         description="The name of the Algorand network.",

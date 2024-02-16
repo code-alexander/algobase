@@ -227,6 +227,9 @@ def test_match_account() -> None:
     address = "UYAUCPT2B475MESZAIA4BULTWIQM23VBPHQOLKKOPD7JRFB5QS4L3BOFUM"
     assert match_account(algod_client, [address], is_default_account) == address  # type: ignore[arg-type]
 
+    with pytest.raises(ValueError):
+        match_account(algod_client, [address], lambda x: x.amount == 0)  # type: ignore[arg-type]
+
 
 def test_get_default_account() -> None:
     """Test the get_default_account() function."""
