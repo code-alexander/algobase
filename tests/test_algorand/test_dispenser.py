@@ -1,5 +1,6 @@
 """Tests for the Algorand TestNet dispenser API client."""
 
+from types import SimpleNamespace
 from typing import Any
 
 import httpx
@@ -14,16 +15,15 @@ from algobase.models.dispenser import DispenserFundResponse
 @pytest.mark.parametrize(
     "field, expected",
     [
-        ("_api_key", "test_key"),
-        ("api_key", "test_key"),
-        ("is_api_key_required", True),
+        ("_access_token", "test_token"),
+        ("access_token", "test_token"),
         ("base_url", "https://api.dispenser.algorandfoundation.tools"),
-        ("headers", {"Authorization": "Bearer test_key"}),
+        ("headers", {"Authorization": "Bearer test_token"}),
     ],
 )
 def test_properties(field: str, expected: Any) -> None:
     """Test the properties of the `TestNetDispenser` class."""
-    client = Dispenser(_api_key="test_key")
+    client = Dispenser(_access_token="test_token")
     assert getattr(client, field) == expected
 
 
@@ -37,7 +37,7 @@ def test_fund_successful(
             "amount": 1000000,
         }
     )
-    client = Dispenser(_api_key="test_key")
+    client = Dispenser(_access_token="test_token")
     response = client.fund(
         address="test_address", amount=1000000, asset_id=AlgorandAsset.ALGO
     )
@@ -54,6 +54,29 @@ def test_fund_error(
         status_code=500,
         json={"code": "unexpected_error", "message": "Unexpected internal error"},
     )
-    client = Dispenser(_api_key="test_key")
+    client = Dispenser(_access_token="test_token")
     with pytest.raises(httpx.HTTPError):
         client.fund(address="test_address", amount=1000000, asset_id=AlgorandAsset.ALGO)
+
+
+def test_from_settings_constructor() -> None:
+    """Test that the client can be created from a settings object."""
+    settings = SimpleNamespace(testnet_dispenser_access_token="test_token")
+    client = Dispenser.from_settings(settings)  # type: ignore[arg-type]
+    assert isinstance(client, Dispenser)
+    assert client.access_token == "test_token"
+
+
+def test_from_settings_constructor_token_missing() -> None:
+    """Test that the client raises an error if the access token is None in the settings object."""
+    settings = SimpleNamespace(testnet_dispenser_access_token=None)
+    with pytest.raises(ValueError):
+        Dispenser.from_settings(settings)  # type: ignore[arg-type]
+
+
+def test_access_token_missing() -> None:
+    """Test that the client raises an error if the access token is None or an empty string."""
+    with pytest.raises(ValueError):
+        Dispenser(_access_token=None)  # type: ignore[arg-type]
+    with pytest.raises(ValueError):
+        Dispenser(_access_token="")

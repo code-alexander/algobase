@@ -1,19 +1,46 @@
 """Algorand TestNet dispenser client."""
 
 from dataclasses import dataclass, field
-from typing import Literal
+from typing import Literal, Self
 
 import httpx
 
 from algobase.choices import AlgorandAsset
 from algobase.models.dispenser import DispenserFundResponse
+from algobase.settings import Settings
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class Dispenser:
     """Algorand TestNet dispenser client."""
 
-    _api_key: str = field(repr=False)
+    _access_token: str = field(repr=False)
+
+    def __post_init__(self):
+        """Check that the access token is not None or an empty string.
+
+        Raises:
+            ValueError: If the access token is None or an empty string.
+        """
+        if not self._access_token:
+            raise ValueError("Access token is required.")
+
+    @classmethod
+    def from_settings(cls, settings: Settings) -> Self:
+        """Create an instance of the IPFS client from the settings object.
+
+        Args:
+            settings (Settings): The settings object.
+
+        Raises:
+            ValueError: If the dispenser access token is None.
+
+        Returns:
+            Self: An instance of the Dispenser client.
+        """
+        if settings.testnet_dispenser_access_token is None:
+            raise ValueError("Dispenser access token must not be None.")
+        return cls(_access_token=settings.testnet_dispenser_access_token)
 
     @property
     def base_url(self) -> httpx.URL:
@@ -21,19 +48,14 @@ class Dispenser:
         return httpx.URL("https://api.dispenser.algorandfoundation.tools")
 
     @property
-    def is_api_key_required(self) -> bool:
-        """Whether the IPFS provider requires an API key."""
-        return True
-
-    @property
-    def api_key(self) -> str:
-        """The API key."""
-        return self._api_key
+    def access_token(self) -> str:
+        """The OAauth access token."""
+        return self._access_token
 
     @property
     def headers(self) -> dict[str, str]:
         """The headers to use for the HTTP requests."""
-        return {"Authorization": f"Bearer {self.api_key}"}
+        return {"Authorization": f"Bearer {self.access_token}"}
 
     def fund(
         self, address: str, amount: int, asset_id: Literal[AlgorandAsset.ALGO]
