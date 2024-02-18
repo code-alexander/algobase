@@ -32,9 +32,11 @@ class Settings(BaseSettings):
         description="The Algorand API provider.", default=AlgorandApiProvider.LOCALHOST
     )
     algod_token: str = Field(description="The Algod API token.", default="a" * 64)
-
     nft_storage_api_key: str | None = Field(
         description="API key for nft.storage.", default=None
+    )
+    testnet_dispenser_access_token: str | None = Field(
+        description="Access token for the Algorand TestNet dispenser.", default=None
     )
 
     def __or__(self, f: Callable[[Self], T]) -> T:
