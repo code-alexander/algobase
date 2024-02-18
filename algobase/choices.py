@@ -1,6 +1,6 @@
 """Enums and enum type aliases for algobase."""
 
-from enum import StrEnum, auto
+from enum import IntEnum, StrEnum, auto
 from typing import Literal, TypeAlias
 
 
@@ -56,12 +56,16 @@ class AlgorandNetwork(StrEnum):
     """An enumeration of Algorand networks."""
 
     LOCALNET = auto()
+    BETANET = auto()
     TESTNET = auto()
     MAINNET = auto()
 
 
 AlgorandNetworkChoice: TypeAlias = Literal[
-    AlgorandNetwork.LOCALNET, AlgorandNetwork.TESTNET, AlgorandNetwork.MAINNET
+    AlgorandNetwork.LOCALNET,
+    AlgorandNetwork.BETANET,
+    AlgorandNetwork.TESTNET,
+    AlgorandNetwork.MAINNET,
 ]
 
 
@@ -91,3 +95,9 @@ AlgorandApiProviderChoice: TypeAlias = Literal[
     AlgorandApiProvider.CUSTOM,
     AlgorandApiProvider.ALGONODE,
 ]
+
+
+class AlgorandAsset(IntEnum):
+    """An enumeration of Algorand asset names and IDs."""
+
+    ALGO = 0

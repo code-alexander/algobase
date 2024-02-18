@@ -1,6 +1,7 @@
 """Test the Algorand client classes and functions."""
 
 from types import SimpleNamespace
+from typing import Literal
 
 import pytest
 from algosdk.kmd import KMDClient
@@ -18,12 +19,17 @@ from algobase.algorand.client import (
     create_localnet_indexer_client,
     create_localnet_kmd_client,
     find_wallet_id,
+    get_algonode_config,
     get_default_account,
     is_default_account,
     is_localnet,
     match_account,
 )
-from algobase.choices import AlgorandApi, AlgorandApiChoice
+from algobase.choices import (
+    AlgorandApi,
+    AlgorandApiChoice,
+    AlgorandNetwork,
+)
 from algobase.models import algod
 
 
@@ -346,3 +352,51 @@ def test_is_localnet_true(gen: str | None, expected: bool) -> None:
             return SimpleNamespace(gen=gen)
 
     assert is_localnet(MockAlgodClient()) is expected  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "network, api, expected",
+    [
+        (
+            AlgorandNetwork.BETANET,
+            AlgorandApi.ALGOD,
+            ClientConfig(url="https://betanet-algod.algonode.cloud", credential=""),
+        ),
+        (
+            AlgorandNetwork.BETANET,
+            AlgorandApi.INDEXER,
+            ClientConfig(url="https://betanet-idx.algonode.cloud", credential=""),
+        ),
+        (
+            AlgorandNetwork.TESTNET,
+            AlgorandApi.ALGOD,
+            ClientConfig(url="https://testnet-algod.algonode.cloud", credential=""),
+        ),
+        (
+            AlgorandNetwork.TESTNET,
+            AlgorandApi.INDEXER,
+            ClientConfig(url="https://testnet-idx.algonode.cloud", credential=""),
+        ),
+        (
+            AlgorandNetwork.MAINNET,
+            AlgorandApi.ALGOD,
+            ClientConfig(url="https://mainnet-algod.algonode.cloud", credential=""),
+        ),
+        (
+            AlgorandNetwork.MAINNET,
+            AlgorandApi.INDEXER,
+            ClientConfig(url="https://mainnet-idx.algonode.cloud", credential=""),
+        ),
+    ],
+)
+def test_get_algonode_config(
+    network: Literal[
+        AlgorandNetwork.BETANET, AlgorandNetwork.TESTNET, AlgorandNetwork.MAINNET
+    ],
+    api: Literal[AlgorandApi.ALGOD, AlgorandApi.INDEXER],
+    expected: ClientConfig,
+) -> None:
+    """Test the get_algonode_config() function."""
+    config = get_algonode_config(network, api)
+    assert isinstance(config, ClientConfig)
+    assert config == expected

@@ -17,6 +17,7 @@ class IpfsClient(ABC):
         if self.is_api_key_required:
             self.check_api_key_is_present()
 
+    @classmethod
     @abstractmethod
     def from_settings(cls, settings: Settings) -> Self:
         """Create an instance of the IPFS client from a settings object."""

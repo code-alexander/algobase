@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from algosdk.account import address_from_private_key
+from algosdk.account import address_from_private_key, generate_account
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,3 +19,13 @@ class Account:
         return cls(
             private_key=private_key, address=address_from_private_key(private_key)
         )
+
+
+def create_account() -> Account:
+    """Create a new Algorand account.
+
+    Returns:
+        Account: The account.
+    """
+    private_key, address = generate_account()
+    return Account(private_key=private_key, address=address)
