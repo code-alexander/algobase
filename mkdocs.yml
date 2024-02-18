@@ -29,6 +29,6 @@ nav:
   - How-To Guides:
       - How to Validate ARC-3 Assets and Metadata: how_to/how_to_validate_arc3.md
       - How to Store JSON in IPFS: how_to/how_to_store_json_ipfs.md
-      - How to Mint an NFT on LocalNet: how_to/how_to_mint_nft_localnet.md
+      - How to Mint an ARC-3 NFT on LocalNet: how_to/how_to_mint_nft_localnet.md
   - Reference:
       - Reference: reference.md

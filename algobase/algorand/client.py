@@ -2,6 +2,7 @@
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Literal
 
 from algosdk.kmd import KMDClient
 from algosdk.v2client.algod import AlgodClient
@@ -10,7 +11,11 @@ from returns.curry import partial
 from returns.pipeline import flow
 
 from algobase.algorand.account import Account
-from algobase.choices import AlgorandApi, AlgorandApiChoice
+from algobase.choices import (
+    AlgorandApi,
+    AlgorandApiChoice,
+    AlgorandNetwork,
+)
 from algobase.functional import first_true
 from algobase.models import algod, kmd
 
@@ -168,37 +173,6 @@ def match_account(
     return matched
 
 
-# def check_account_balance(algod_client: AlgodClient, account: Account) -> int:
-#     """Check the balance of an account.
-
-#     Args:
-#         algod_client (AlgodClient): The Algod client.
-#         account (Account): The account to check.
-
-#     Returns:
-#         int: The balance of the account in MicroAlgos.
-#     """
-
-#     return algod.Account.model_validate(algod_client.account_info(account.address)).amount
-
-# def fund_with_microalgos(algod_client: AlgodClient, account: Account) -> bool:
-#     params = algod_client.suggested_params()
-
-#     transaction = PaymentTxn(
-#             sender=account.address,
-#             sp=algod_client.suggested_params(),
-#             receiver: Unknown,
-#             amt: Unknown,
-#             close_remainder_to: Unknown | None = None,
-#             note: Unknown | None = None,
-#             lease: Unknown | None = None,
-#             rekey_to: Unknown | None = None
-
-#     )
-
-#     return True
-
-
 def get_default_account(
     algod_client: AlgodClient, kmd_client: KMDClient | None = None
 ) -> Account:
@@ -246,3 +220,24 @@ def is_localnet(algod_client: AlgodClient) -> bool:
         "sandnet-v1",
         "dockernet-v1",
     }
+
+
+def get_algonode_config(
+    network: Literal[
+        AlgorandNetwork.BETANET, AlgorandNetwork.TESTNET, AlgorandNetwork.MAINNET
+    ],
+    api: Literal[AlgorandApi.ALGOD, AlgorandApi.INDEXER],
+) -> ClientConfig:
+    """Get the client config for Algonode API.
+
+    Args:
+        network (AlgorandNetworkChoice): The Algorand network.
+        api (Literal[AlgorandApi.ALGOD, AlgorandApi.INDEXER]): The Algorand API.
+
+    Returns:
+        ClientConfig: The client config object.
+    """
+    return ClientConfig(
+        url=f"https://{network}-{('idx', 'algod')[api == AlgorandApi.ALGOD]}.algonode.cloud",
+        credential="",
+    )
