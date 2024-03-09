@@ -321,3 +321,21 @@ class TestAsa:
         test_dict["asset_params"]["url"] = url
         with pytest.raises(ValueError):
             assert Asa.model_validate(test_dict).asset_params.url == url
+
+    @pytest.mark.parametrize(
+        "reserve",
+        [
+            "template-ipfs://{ipfscid:0:raw:reserve:sha2-256}/arc3.json",
+            "template-ipfs://{ipfscid:v1:raw:reserve:sha2-256}",
+            "https://example.com",
+            None,
+        ],
+    )
+    def test_arc19_reserve_invalid(
+        self, asa_arc19_nft_fixture: FixtureDict, reserve: str
+    ) -> None:
+        """Test that validation fails when passed an invalid reserve address for Algorand ARC-19."""
+        test_dict = asa_arc19_nft_fixture.copy()
+        test_dict["asset_params"]["reserve"] = reserve
+        with pytest.raises(ValueError):
+            assert Asa.model_validate(test_dict).asset_params.reserve == reserve
