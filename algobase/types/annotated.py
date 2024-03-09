@@ -61,7 +61,6 @@ AsaUrl = Annotated[
         compose(
             partial(validate_encoded_length, max_length=96),
             decode_url_braces,
-            partial(validate_type_compatibility, _type=Url),
         )
     ),
 ]

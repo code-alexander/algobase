@@ -187,7 +187,7 @@ class TestUrlTypes:
         ta = TypeAdapter(_type)  # type: ignore
         assert isinstance(ta.validate_python(x), str)
 
-    @pytest.mark.parametrize("_type", [AsaUrl, Arc3Url, Arc3LocalizedUrl])
+    @pytest.mark.parametrize("_type", [Arc3Url, Arc3LocalizedUrl])
     def test_asa_url_invalid(self, _type: type) -> None:
         """Test that subtype raises an error if the value is not a valid URL."""
         ta = TypeAdapter(_type)  # type: ignore

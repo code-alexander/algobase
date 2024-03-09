@@ -1,5 +1,6 @@
 ::: algobase.models.asset_params
 ::: algobase.models.arc3
+::: algobase.models.arc19
 ::: algobase.models.asa
 ::: algobase.models.algod
 ::: algobase.models.kmd

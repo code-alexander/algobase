@@ -306,3 +306,27 @@ def validate_type_compatibility(value: str, _type: type) -> str:
     """
     TypeAdapter(_type).validate_python(value)
     return value
+
+
+def validate_arc19_asset_url(value: str) -> str:
+    """Checks that the value is a valid URL for Algorand ARC-19.
+
+    Args:
+        value (str): The value to check.
+
+    Raises:
+        ValueError: If the value is not a valid URL for Algorand ARC-19.
+
+    Returns:
+        str: The value passed in.
+    """
+    # Extract the template substring from the URL, e.g. {ipfscid:0:dag-pb:reserve:sha2-256}
+    template = value[value.find("{") + 1 : value.find("}")]
+    match template.split(":"):
+        case ["ipfscid", "0", "dag-pb", "reserve", "sha2-256"]:
+            ...
+        case ["ipfscid", "1", "raw" | "dag-pb", "reserve", "sha2-256"]:
+            ...
+        case _:
+            raise ValueError("Asset URL template must follow ARC-19 specification.")
+    return value
