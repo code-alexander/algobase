@@ -8,9 +8,10 @@ class Arc(StrEnum):
     """An enumeration of Algorand ARC standards that are supported in algobase."""
 
     ARC3 = auto()
+    ARC19 = auto()
 
 
-ArcChoice: TypeAlias = Literal[Arc.ARC3]
+ArcChoice: TypeAlias = Literal[Arc.ARC3, Arc.ARC19]
 
 
 class AsaType(StrEnum):

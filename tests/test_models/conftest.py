@@ -123,6 +123,33 @@ def asa_nft_fixture() -> FixtureDict:
 
 
 @pytest.fixture
+def asa_arc19_nft_fixture() -> FixtureDict:
+    """Pytest fixture for a dictionary containing valid ARC-19 ASA data.
+
+    Returns:
+        FixtureDict: The dictionary of valid ASA data.
+    """
+    metadata = deepcopy(arc3_metadata)
+    metadata["arc"] = "arc19"
+    return {
+        "asset_params": {
+            "total": 1,
+            "decimals": 0,
+            "default_frozen": False,
+            "unit_name": "USDT",
+            "asset_name": "My Song",
+            "url": "template-ipfs://{ipfscid:0:dag-pb:reserve:sha2-256}/arc3.json",
+            "metadata_hash": b"fACPO4nRgO55j1ndAK3W6Sgc4APkcyFh",
+            "manager": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
+            "reserve": "EEQYWGGBHRDAMTEVDPVOSDVX3HJQIG6K6IVNR3RXHYOHV64ZWAEISS4CTI",  # CID encoded as address
+            "freeze": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
+            "clawback": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
+        },
+        "metadata": metadata,
+    }
+
+
+@pytest.fixture
 def asa_nft_extra_metadata_fixture() -> FixtureDict:
     """Pytest fixture for a dictionary containing valid ASA data.
 

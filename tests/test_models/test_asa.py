@@ -5,6 +5,7 @@ import pytest
 
 from algobase.choices import AsaType, AsaTypeChoice
 from algobase.models.arc3 import Arc3Metadata
+from algobase.models.arc19 import Arc19Metadata
 from algobase.models.asa import Asa
 from algobase.models.asset_params import AssetParams
 from tests.types import FixtureDict
@@ -132,7 +133,6 @@ class TestAsa:
     def test_asset_url_not_none(self, asa_nft_fixture: FixtureDict) -> None:
         """Test that an error is raised if the asset URL is None and the metadata is ARC-3."""
         test_dict = asa_nft_fixture.copy()
-        print(test_dict)
         test_dict["asset_params"].pop("url")
         with pytest.raises(ValueError):
             Asa.model_validate(test_dict)
@@ -226,3 +226,98 @@ class TestAsa:
         ] = decimals  # To avoid throwing a different validation error
         test_dict["asa_type"] = asa_type
         assert Asa.model_validate(test_dict).derived_asa_type == asa_type
+
+    def test_derived_arc3_metadata(self, arc3_metadata_fixture: FixtureDict) -> None:
+        """Test that the derived ARC-3 metadata is correct."""
+        arc3_dict = arc3_metadata_fixture.copy()
+        arc3_dict.pop("extra_metadata")
+
+        test_dict = {
+            "asset_params": {
+                "total": 1,
+                "decimals": 0,
+                "default_frozen": False,
+                "unit_name": "USDT",
+                "asset_name": "My Song",
+                "url": "template-ipfs://{ipfscid:0:dag-pb:reserve:sha2-256}/arc3.json#arc3",
+                "metadata_hash": b"fACPO4nRgO55j1ndAK3W6Sgc4APkcyFh",
+                "manager": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
+                "reserve": "EEQYWGGBHRDAMTEVDPVOSDVX3HJQIG6K6IVNR3RXHYOHV64ZWAEISS4CTI",
+                "freeze": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
+                "clawback": "7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q",
+            },
+            "metadata": {"arc": "arc19", "arc3_metadata": arc3_dict},
+        }
+
+        assert isinstance(Asa.model_validate(test_dict).metadata, Arc19Metadata)
+
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "https://www.example.com/#arc3",
+            "https://mysongs.com/song/mysong/#arc3",
+            "https://s3.amazonaws.com/your-bucket/song/full/mysong.ogg#arc3",
+            "ipfs://QmWS1VAdMD353A6SDk9wNyvkT14kyCiZrNDYAad4w1tKqT/metadata.json#arc3",
+            "https://s3.amazonaws.com/your-bucket/images/{id}.png#arc3",
+        ],
+    )
+    def test_arc3_url_valid(self, asa_nft_fixture: FixtureDict, url: str) -> None:
+        """Test that validation succeeds when passed a valid URL for Algorand ARC-3."""
+        test_dict = asa_nft_fixture.copy()
+        test_dict["asset_params"]["url"] = url
+        test_dict["metadata"]["image"] = url
+        assert Asa.model_validate(test_dict).asset_params.url == url
+
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "template-ipfs://{ipfscid:0:dag-pb:reserve:sha2-256}/arc3.json",
+            "template-ipfs://{ipfscid:1:raw:reserve:sha2-256}",
+            "template-ipfs://{ipfscid:1:dag-pb:reserve:sha2-256}/metadata.json",
+            "http://example.com/",
+            "https://www.example.com/1234567890123456789012345678901234567890123456789012345678901234567890123#arc3",
+            "example.com",
+            "not-a-url#arc3",
+        ],
+    )
+    def test_arc3_url_invalid(self, asa_nft_fixture: FixtureDict, url: str) -> None:
+        """Test that validation fails when passed an invalid URL for Algorand ARC-3."""
+        test_dict = asa_nft_fixture.copy()
+        test_dict["asset_params"]["url"] = url
+        test_dict["metadata"]["image"] = url
+        with pytest.raises(ValueError):
+            Asa.model_validate(test_dict)
+
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "template-ipfs://{ipfscid:0:dag-pb:reserve:sha2-256}/arc3.json",
+            "template-ipfs://{ipfscid:1:raw:reserve:sha2-256}",
+            "template-ipfs://{ipfscid:1:dag-pb:reserve:sha2-256}/metadata.json",
+        ],
+    )
+    def test_arc19_url_valid(
+        self, asa_arc19_nft_fixture: FixtureDict, url: str
+    ) -> None:
+        """Test that validation succeeds when passed a valid URL for Algorand ARC-19."""
+        test_dict = asa_arc19_nft_fixture.copy()
+        test_dict["asset_params"]["url"] = url
+        assert Asa.model_validate(test_dict).asset_params.url == url
+
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "template-ipfs://{ipfscid:0:raw:reserve:sha2-256}/arc3.json",
+            "template-ipfs://{ipfscid:v1:raw:reserve:sha2-256}",
+            "https://example.com",
+            None,
+        ],
+    )
+    def test_arc19_url_invalid(
+        self, asa_arc19_nft_fixture: FixtureDict, url: str
+    ) -> None:
+        """Test that validation fails when passed an invalid URL for Algorand ARC-19."""
+        test_dict = asa_arc19_nft_fixture.copy()
+        test_dict["asset_params"]["url"] = url
+        with pytest.raises(ValueError):
+            assert Asa.model_validate(test_dict).asset_params.url == url

@@ -11,6 +11,7 @@ from algobase.utils.validate import (
     is_valid,
     validate_address,
     validate_arc3_sri,
+    validate_arc19_asset_url,
     validate_base64,
     validate_contains_substring,
     validate_encoded_length,
@@ -371,3 +372,30 @@ def test_validate_type_compatibility_invalid(value: str, _type: type) -> None:
     """Test that validate_type_compatibility() raises an error when passed a value that is incompatible with the specified type."""
     with pytest.raises(ValidationError):
         validate_type_compatibility(value, _type)
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "template-ipfs://{ipfscid:0:dag-pb:reserve:sha2-256}/arc3.json",
+        "template-ipfs://{ipfscid:1:raw:reserve:sha2-256}",
+        "template-ipfs://{ipfscid:1:dag-pb:reserve:sha2-256}/metadata.json",
+    ],
+)
+def test_validate_arc19_asset_url_valid(url: str) -> None:
+    """Test that validate_arc19_asset_url() returns the original value when passed a valid URL for Algorand ARC-19."""
+    assert validate_arc19_asset_url(url) == url
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "template-ipfs://{ipfscid:0:raw:reserve:sha2-256}/arc3.json",
+        "template-ipfs://{ipfscid:v1:raw:reserve:sha2-256}",
+        "https://example.com",
+    ],
+)
+def test_validate_arc19_url_invalid(url: str) -> None:
+    """Test that validate_arc19_url() raises an error when passed an invalid URL for Algorand ARC-19."""
+    with pytest.raises(ValueError):
+        validate_arc19_asset_url(url) == url

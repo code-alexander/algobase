@@ -12,13 +12,19 @@ from pydantic import (
     computed_field,
     model_validator,
 )
+from pydantic_core import Url
 
 from algobase.choices import AsaType, AsaTypeChoice
 from algobase.models.arc3 import Arc3Metadata
+from algobase.models.arc19 import Arc19Metadata
 from algobase.models.asset_params import AssetParams
 from algobase.types.annotated import AlgorandHash, AsaAssetName
 from algobase.utils.hash import sha256, sha512_256
-from algobase.utils.validate import is_valid, validate_type_compatibility
+from algobase.utils.validate import (
+    is_valid,
+    validate_arc19_asset_url,
+    validate_type_compatibility,
+)
 
 
 class Asa(BaseModel):
@@ -30,8 +36,8 @@ class Asa(BaseModel):
         default=None, description="The type of the ASA."
     )
     asset_params: AssetParams = Field(description="AssetParams Pydantic model.")
-    metadata: Arc3Metadata | None = Field(
-        default=None, description="Arc3Metadata Pydantic model.", discriminator="arc"
+    metadata: Arc3Metadata | Arc19Metadata | None = Field(
+        default=None, description="Metadata Pydantic model.", discriminator="arc"
     )
 
     @property
@@ -46,20 +52,32 @@ class Asa(BaseModel):
             case _:
                 return AsaType.FUNGIBLE
 
+    @property
+    def derived_arc3_metadata(self) -> Arc3Metadata | None:
+        """The derived ARC-3 metadata."""
+        match self.metadata:
+            case Arc3Metadata():
+                return self.metadata
+            case Arc19Metadata() if isinstance(
+                self.metadata.arc3_metadata, Arc3Metadata
+            ):
+                return self.metadata.arc3_metadata
+            case _:
+                return None
+
     @computed_field  # type: ignore[misc]
     @property
     def metadata_hash(self) -> AlgorandHash | None:
         """The hash of the JSON metadata."""
-        # Currently only ARC3 is supported
-        if isinstance(self.metadata, Arc3Metadata):
-            if self.metadata.extra_metadata is None:
-                return sha256(self.metadata.json_bytes)
-            else:
-                # am = SHA-512/256("arc0003/am" || SHA-512/256("arc0003/amj" || content of JSON Metadata file) || e)
-                base_hash = sha512_256(b"arc0003/amj" + self.metadata.json_bytes)
-                extra_metadata_bytes = b64decode(self.metadata.extra_metadata)
-                return sha512_256(b"arc0003/am" + base_hash + extra_metadata_bytes)
-        return None
+        if (metadata := self.derived_arc3_metadata) is None:
+            return None
+        if metadata.extra_metadata is None:
+            return sha256(metadata.json_bytes)
+        else:
+            # am = SHA-512/256("arc0003/am" || SHA-512/256("arc0003/amj" || content of JSON Metadata file) || e)
+            base_hash = sha512_256(b"arc0003/amj" + metadata.json_bytes)
+            extra_metadata_bytes = b64decode(metadata.extra_metadata)
+            return sha512_256(b"arc0003/am" + base_hash + extra_metadata_bytes)
 
     @model_validator(mode="after")
     def check_asa_type_constraints(self) -> "Asa":
@@ -83,34 +101,41 @@ class Asa(BaseModel):
     @model_validator(mode="after")
     def check_arc_constraints(self) -> "Asa":
         """Validate fields against ARC constraints, if applicable."""
-        # Currently only ARC3 is supported
-        if isinstance(self.metadata, Arc3Metadata):
-            self.check_arc3_constraints()
+        if self.derived_arc3_metadata is not None:
+            self.check_arc3_metadata_constraints(self.derived_arc3_metadata)
+        match self.metadata:
+            case Arc3Metadata():
+                self.check_arc3_asset_url()
+            case Arc19Metadata():
+                if self.asset_params.url is None:
+                    raise ValueError("Asset URL must not be `None`.")
+                validate_arc19_asset_url(self.asset_params.url)
+                self.check_arc19_reserve()
+
         return self
 
-    def check_arc3_decimals(self) -> "Asa":
+    def check_arc3_decimals(self, metadata: Arc3Metadata) -> "Asa":
         """Raise an error if the decimals in the asset parameters doesn't match the deimals in the metadata."""
         if (
-            self.metadata is not None
-            and self.metadata.decimals is not None
-            and self.metadata.decimals != self.asset_params.decimals
+            metadata.decimals is not None
+            and metadata.decimals != self.asset_params.decimals
         ):
             raise ValueError(
-                f"Decimals in the asset parameters ({self.asset_params.decimals}) must match the decimals in the metadata ({self.metadata.decimals})."
+                f"Decimals in the asset parameters ({self.asset_params.decimals}) must match the decimals in the metadata ({metadata.decimals})."
             )
         return self
 
-    def check_arc3_unit_name(self) -> "Asa":
+    def check_arc3_unit_name(self, metadata: Arc3Metadata) -> "Asa":
         """Raise a warning if the metadata 'name' property is not related to the asset unit name.
 
         Uses the difflib `SequenceMatcher` for string similarity.
         """
         if (
             self.asset_params.unit_name is not None
-            and self.metadata is not None
-            and self.metadata.name is not None
+            and metadata is not None
+            and metadata.name is not None
             and SequenceMatcher(
-                None, self.asset_params.unit_name.lower(), self.metadata.name.lower()
+                None, self.asset_params.unit_name.lower(), metadata.name.lower()
             ).ratio()
             < 0.5
         ):
@@ -125,22 +150,23 @@ class Asa(BaseModel):
         """Checks that the asset URL is valid for ARC-3 ASAs."""
         if self.asset_params.url is None:
             raise ValueError("Asset URL must not be `None`.")
-        elif not self.asset_params.url.endswith("#arc3"):
+        if not self.asset_params.url.endswith("#arc3"):
             raise ValueError(
                 f"Asset URL must end with '#arc3' if asset name is '{self.asset_params.asset_name}'."
             )
+        validate_type_compatibility(self.asset_params.url, Url)
         return self
 
-    def check_arc3_constraints(self) -> "Asa":
+    def check_arc3_metadata_constraints(self, metadata: Arc3Metadata) -> "Asa":
         """Validate fields against ARC constraints, if applicable.
 
         Raises warnings for values/formats that are allowed but not recommended in ARC specs.
         Raises errors for values/formats that are not allowed in ARC specs.
         """
         # Currently only ARC3 is supported
-        if isinstance(self.metadata, Arc3Metadata):
-            self.check_arc3_unit_name()
-            self.check_arc3_decimals()
+        if isinstance(metadata, Arc3Metadata):
+            self.check_arc3_unit_name(metadata)
+            self.check_arc3_decimals(metadata)
 
             # Asset name constraints
             match self.asset_params.asset_name:
@@ -160,7 +186,7 @@ class Asa(BaseModel):
                     )
                 # Constraints on combination of asset name and metadata name
                 case _:
-                    match self.metadata.name:
+                    match metadata.name:
                         case None:
                             raise ValueError(
                                 f"Metadata name must not be `None` if asset name is '{self.asset_params.asset_name}'."
@@ -168,18 +194,22 @@ class Asa(BaseModel):
                         case x if x != self.asset_params.asset_name:
                             if is_valid(
                                 validate_type_compatibility,
-                                self.metadata.name,
+                                metadata.name,
                                 AsaAssetName,
                             ):
                                 raise ValueError(
                                     f"Asset name '{self.asset_params.asset_name}' must match the metadata name '{x}'."
                                 )
-                            elif not self.metadata.name.startswith(
+                            elif not metadata.name.startswith(
                                 self.asset_params.asset_name
                             ):
                                 raise ValueError(
-                                    f"Asset name must be a shortened version of the metadata name '{self.metadata.name}'."
+                                    f"Asset name must be a shortened version of the metadata name '{metadata.name}'."
                                 )
-                    # Constraints on combination of asset name and asset URL
-                    self.check_arc3_asset_url()
+        return self
+
+    def check_arc19_reserve(self) -> "Asa":
+        """Checks that the CID encoded in the reserve address field is valid for ARC-19 ASAs."""
+        if self.asset_params.reserve is None:
+            raise ValueError("Reserve address must not be `None`.")
         return self
