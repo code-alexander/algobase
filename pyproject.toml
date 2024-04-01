@@ -34,7 +34,7 @@ classifiers = [  #! Update me
 [tool.poetry.dependencies]
 python = "^3.11"
 
-typer = {extras = ["all"], version = ">=0.9,<0.12"}
+typer = {extras = ["all"], version = ">=0.9,<0.13"}
 rich = "^13.7.0"
 pydantic = "^2.5.3"
 py-algorand-sdk = "^2.5.0"
