@@ -68,7 +68,7 @@ pytest-cov = "^4.1.0"
 ruff = ">=0.1.13,<0.3.0"
 black = {version = "^24.1a1", allow-prereleases = true}
 mkdocs = "^1.5.3"
-mkdocstrings = {extras = ["python"], version = "^0.24.0"}
+mkdocstrings = {extras = ["python"], version = ">=0.24,<0.26"}
 mkdocs-material = "^9.5.6"
 datamodel-code-generator = "^0.25.3"
 
