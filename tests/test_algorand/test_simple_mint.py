@@ -8,10 +8,12 @@ from algobase.algorand.simple_mint import (
     create_asa,
     create_asset_config_txn,
     create_metadata,
+    create_metadata_arc19,
     mint,
 )
 from algobase.choices import Arc
 from algobase.models.arc3 import Arc3Metadata
+from algobase.models.arc19 import Arc19Metadata
 from algobase.models.asa import Asa
 
 
@@ -28,8 +30,24 @@ def test_create_metadata() -> None:
     assert getattr(metadata.properties, "creator") == "test_address"
 
 
+def test_create_metadata_arc19() -> None:
+    """Test the create_metadata_arc19() function."""
+    metadata = create_metadata_arc19(
+        description="My first NFT!", properties={"creator": "test_address"}
+    )
+    assert isinstance(metadata, Arc19Metadata)
+    assert metadata.arc == Arc.ARC19
+    assert hasattr(metadata, "arc3_metadata") and isinstance(
+        metadata.arc3_metadata, Arc3Metadata
+    )
+    assert metadata.arc3_metadata.name == "NFT"
+    assert metadata.arc3_metadata.decimals == 0
+    assert metadata.arc3_metadata.description == "My first NFT!"
+    assert getattr(metadata.arc3_metadata.properties, "creator") == "test_address"
+
+
 def test_create_asa() -> None:
-    """Test the create_asa() function."""
+    """Test the create_asa() function for ARC-3 metadata."""
     metadata = create_metadata(
         description="My first NFT!", properties={"creator": "test_address"}
     )

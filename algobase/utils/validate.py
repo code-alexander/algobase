@@ -320,6 +320,9 @@ def validate_arc19_asset_url(value: str) -> str:
     Returns:
         str: The value passed in.
     """
+    if not value.startswith("template-ipfs://"):
+        raise ValueError("ARC-19 asset URL must start with 'template-ipfs://'")
+
     # Extract the template substring from the URL, e.g. {ipfscid:0:dag-pb:reserve:sha2-256}
     template = value[value.find("{") + 1 : value.find("}")]
     match template.split(":"):
@@ -328,5 +331,5 @@ def validate_arc19_asset_url(value: str) -> str:
         case ["ipfscid", "1", "raw" | "dag-pb", "reserve", "sha2-256"]:
             ...
         case _:
-            raise ValueError("Asset URL template must follow ARC-19 specification.")
+            raise ValueError("Asset URL template must follow ARC-19 specification")
     return value
