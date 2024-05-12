@@ -26,7 +26,3 @@ def cid_to_algorand_address(cid: str) -> AlgorandAddress:
         encoding.encode_address,
         TypeAdapter(AlgorandAddress).validate_python,
     )
-
-
-print(cid_to_algorand_address("QmQZyq4b89RfaUw8GESPd2re4hJqB8bnm4kVHNtyQrHnnK"))
-print(type(cid_to_algorand_address("QmQZyq4b89RfaUw8GESPd2re4hJqB8bnm4kVHNtyQrHnnK")))
