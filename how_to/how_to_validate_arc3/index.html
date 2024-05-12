@@ -1,0 +1,905 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../how_to_store_json_ipfs/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
+    
+    
+      
+        <title>How to Validate ARC-3 Assets and Metadata - algobase</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.66ac8b77.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-validate-arc-3-assets-and-metadata" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="algobase" class="md-header__button md-logo" aria-label="algobase" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            algobase
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How to Validate ARC-3 Assets and Metadata
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  How-To Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/" class="md-tabs__link">
+          
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="algobase" class="md-nav__button md-logo" aria-label="algobase" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    algobase
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    How-To Guides
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            How-To Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    How to Validate ARC-3 Assets and Metadata
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    How to Validate ARC-3 Assets and Metadata
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Warning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Up
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Pydantic
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-asa-asset-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating ASA Asset Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-arc-3-json-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating ARC-3 JSON Metadata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-arc-3-asset-parameters-and-json-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating ARC-3 Asset Parameters and JSON Metadata
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how_to_store_json_ipfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to Store JSON in IPFS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how_to_mint_nft_localnet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to Mint an ARC-3 NFT on LocalNet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Warning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Up
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Pydantic
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-asa-asset-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating ASA Asset Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-arc-3-json-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating ARC-3 JSON Metadata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validating-arc-3-asset-parameters-and-json-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating ARC-3 Asset Parameters and JSON Metadata
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="how-to-validate-arc-3-assets-and-metadata">How to Validate ARC-3 Assets and Metadata</h1>
+<h2 id="warning">⚠️ Warning</h2>
+<p>This library is in the early stages of development.</p>
+<p>The API is not stable and the code has not been audited.</p>
+<h2 id="context">Context</h2>
+<p><code>algobase</code> provides <a href="https://github.com/pydantic/pydantic">Pydantic</a> models for validating <a href="https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0003.md">Algorand ARC-3</a> assets and metadata.</p>
+<p>There are three sets of constraints that must be adhered to:</p>
+<ul>
+<li>Constraints on the asset parameters (applies to all ASAs)</li>
+<li>Constraints on the JSON metadata</li>
+<li>Constraints on the combination of values in the ASA <a href="https://developer.algorand.org/docs/get-details/transactions/transactions/#asset-parameters">asset parameters</a> and the JSON metadata</li>
+</ul>
+<p><code>algobase</code> provides models for validating the JSON metadata on its own, and in combination with the asset parameters.</p>
+<h2 id="set-up">Set Up</h2>
+<p>Make sure <code>algobase</code> is intalled before you start this tutorial (see intructions <a href="https://github.com/code-alexander/algobase/blob/main/README.md">here</a>).</p>
+<h2 id="understanding-pydantic">Understanding Pydantic</h2>
+<p>There are multiple ways to instantiate a model in <a href="https://github.com/pydantic/pydantic">Pydantic</a>.</p>
+<p>Given a User model:</p>
+<pre><code class="language-python">from pydantic import BaseModel
+
+class User(BaseModel):
+    name: str
+    age: int | None
+</code></pre>
+<p>There are multiple ways to instantiate a Pydantic model and validate your data:</p>
+<pre><code class="language-python"># Using keyword arguments
+&gt;&gt;&gt; User(name=&quot;Sam&quot;, age=50)
+User(name='Sam', age=50)
+
+# Using dict unpacking
+&gt;&gt;&gt; User(**{&quot;name&quot;: &quot;Sam&quot;, &quot;age&quot;: 50})
+User(name='Sam', age=50)
+
+# Passing a dict to the model_validate() classmethod
+&gt;&gt;&gt; User.model_validate({&quot;name&quot;: &quot;Sam&quot;, &quot;age&quot;: 50})
+User(name='Sam', age=50)
+
+# Passing a json string to the model_validate() classmethod
+&gt;&gt;&gt; User.model_validate_json('{&quot;name&quot;: &quot;Sam&quot;, &quot;age&quot;: 50}')
+User(name='Sam', age=50)
+</code></pre>
+<p>By default, <a href="https://github.com/pydantic/pydantic">Pydantic</a> will try to coerce your input data to the required type:</p>
+<pre><code class="language-python"># Using keyword arguments
+&gt;&gt;&gt; User(name=&quot;Sam&quot;, age=&quot;50&quot;)
+User(name='Sam', age=50)
+</code></pre>
+<p>You can disable this by using <a href="https://docs.pydantic.dev/latest/concepts/strict_mode/">strict mode</a>:</p>
+<pre><code class="language-python"># Lax mode (default)
+&gt;&gt;&gt; User.model_validate({&quot;name&quot;: &quot;Sam&quot;, &quot;age&quot;: &quot;50&quot;})
+User(name='Sam', age=50)
+
+# Strict mode
+&gt;&gt;&gt; User.model_validate({&quot;name&quot;: &quot;Sam&quot;, &quot;age&quot;: &quot;50&quot;}, strict=True)
+ValidationError: 1 validation error for User
+age
+  Input should be a valid integer [type=int_type, input_value='50', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.5/v/int_type
+</code></pre>
+<h2 id="validating-asa-asset-parameters">Validating ASA Asset Parameters</h2>
+<p>To validate the asset parameters without checking the JSON metadata:</p>
+<pre><code class="language-python">from algobase.models.asset_params import AssetParams
+
+# Define ASA asset params dict
+asset_params = {
+        &quot;total&quot;: 1,
+        &quot;decimals&quot;: 0,
+        &quot;default_frozen&quot;: False,
+        &quot;unit_name&quot;: &quot;USDT&quot;,
+        &quot;asset_name&quot;: &quot;Tether&quot;,
+        &quot;url&quot;: &quot;https://tether.to/&quot;,
+        &quot;metadata_hash&quot;: b&quot;fACPO4nRgO55j1ndAK3W6Sgc4APkcyFh&quot;,
+        &quot;manager&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+        &quot;reserve&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+        &quot;freeze&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+        &quot;clawback&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+    }
+
+# Validate the asset params data
+AssetParams.model_validate(asset_params)
+</code></pre>
+<h2 id="validating-arc-3-json-metadata">Validating ARC-3 JSON Metadata</h2>
+<p>To validate JSON metadata without checking the ASA parameters:</p>
+<pre><code class="language-python">from algobase.models.arc3 import Arc3Metadata
+
+# Define metadata dict
+metadata = {
+    &quot;name&quot;: &quot;My Songs&quot;,
+    &quot;decimals&quot;: 0,
+    &quot;description&quot;: &quot;My first and best song!&quot;,
+    &quot;image&quot;: &quot;https://s3.amazonaws.com/your-bucket/song/cover/mysong.png&quot;,
+    &quot;image_integrity&quot;: &quot;sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=&quot;,
+    &quot;image_mimetype&quot;: &quot;image/png&quot;,
+    &quot;background_color&quot;: &quot;FFFFFF&quot;,
+    &quot;external_url&quot;: &quot;https://mysongs.com/song/mysong&quot;,
+    &quot;external_url_integrity&quot;: &quot;sha256-7IGatqxLhUYkruDsEva52Ku43up6774yAmf0k98MXnU=&quot;,
+    &quot;external_url_mimetype&quot;: &quot;text/html&quot;,
+    &quot;animation_url&quot;: &quot;https://s3.amazonaws.com/your-bucket/song/preview/mysong.ogg&quot;,
+    &quot;animation_url_integrity&quot;: &quot;sha256-LwArA6xMdnFF3bvQjwODpeTG/RVn61weQSuoRyynA1I=&quot;,
+    &quot;animation_url_mimetype&quot;: &quot;audio/ogg&quot;,
+    &quot;properties&quot;: {
+        &quot;traits&quot;: {
+            &quot;background&quot;: &quot;red&quot;,
+            &quot;shirt_color&quot;: &quot;blue&quot;,
+            &quot;glasses&quot;: &quot;none&quot;,
+            &quot;tattoos&quot;: 4,
+        },
+        &quot;simple_property&quot;: &quot;example value&quot;,
+        &quot;rich_property&quot;: {
+            &quot;name&quot;: &quot;Name&quot;,
+            &quot;value&quot;: &quot;123&quot;,
+            &quot;display_value&quot;: &quot;123 Example Value&quot;,
+            &quot;class&quot;: &quot;emphasis&quot;,
+            &quot;css&quot;: {
+                &quot;color&quot;: &quot;#ffffff&quot;,
+                &quot;font-weight&quot;: &quot;bold&quot;,
+                &quot;text-decoration&quot;: &quot;underline&quot;,
+            },
+        },
+        &quot;valid_types&quot;: {
+            &quot;string&quot;: &quot;Name&quot;,
+            &quot;int&quot;: 1,
+            &quot;float&quot;: 3.14,
+            &quot;list&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],
+        },
+        &quot;array_property&quot;: {
+            &quot;name&quot;: &quot;Name&quot;,
+            &quot;value&quot;: [1, 2, 3, 4],
+            &quot;class&quot;: &quot;emphasis&quot;,
+        },
+    },
+    &quot;extra_metadata&quot;: &quot;iHcUslDaL/jEM/oTxqEX++4CS8o3+IZp7/V5Rgchqwc=&quot;,
+    &quot;localization&quot;: {
+        &quot;uri&quot;: &quot;ipfs://QmWS1VAdMD353A6SDk9wNyvkT14kyCiZrNDYAad4w1tKqT/{locale}.json&quot;,
+        &quot;default&quot;: &quot;en&quot;,
+        &quot;locales&quot;: [&quot;en&quot;, &quot;es&quot;, &quot;fr&quot;],
+        &quot;integrity&quot;: {
+            &quot;es&quot;: &quot;sha256-T0UofLOqdamWQDLok4vy/OcetEFzD8dRLig4229138Y=&quot;,
+            &quot;fr&quot;: &quot;sha256-UUM89QQlXRlerdzVfatUzvNrEI/gwsgsN/lGkR13CKw=&quot;,
+        },
+    },
+}
+
+# Validate the metadata
+Arc3Metadata.model_validate(metadata)
+</code></pre>
+<h2 id="validating-arc-3-asset-parameters-and-json-metadata">Validating ARC-3 Asset Parameters and JSON Metadata</h2>
+<p>To validate a combination of asset parameters and JSON metadata:</p>
+<pre><code class="language-python">from algobase.models.asa import Asa
+
+# Define dict containing both asset params and metadata
+data = {
+    &quot;asset_params&quot;: {
+        &quot;total&quot;: 1,
+        &quot;decimals&quot;: 0,
+        &quot;default_frozen&quot;: False,
+        &quot;unit_name&quot;: &quot;Song0001&quot;,
+        &quot;asset_name&quot;: &quot;My Songs&quot;,
+        &quot;url&quot;: &quot;https://tether.to/#arc3&quot;,
+        &quot;metadata_hash&quot;: b&quot;fACPO4nRgO55j1ndAK3W6Sgc4APkcyFh&quot;,
+        &quot;manager&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+        &quot;reserve&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+        &quot;freeze&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+        &quot;clawback&quot;: &quot;7ZUECA7HFLZTXENRV24SHLU4AVPUTMTTDUFUBNBD64C73F3UHRTHAIOF6Q&quot;,
+    },
+    &quot;metadata&quot;: {
+        &quot;arc&quot;: &quot;arc3&quot;,
+        &quot;name&quot;: &quot;My Songs&quot;,
+        &quot;decimals&quot;: 0,
+        &quot;description&quot;: &quot;My first and best song!&quot;,
+        &quot;image&quot;: &quot;https://s3.amazonaws.com/your-bucket/song/cover/mysong.png&quot;,
+        &quot;image_integrity&quot;: &quot;sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=&quot;,
+        &quot;image_mimetype&quot;: &quot;image/png&quot;,
+        &quot;background_color&quot;: &quot;FFFFFF&quot;,
+        &quot;external_url&quot;: &quot;https://mysongs.com/song/mysong&quot;,
+        &quot;external_url_integrity&quot;: &quot;sha256-7IGatqxLhUYkruDsEva52Ku43up6774yAmf0k98MXnU=&quot;,
+        &quot;external_url_mimetype&quot;: &quot;text/html&quot;,
+        &quot;animation_url&quot;: &quot;https://s3.amazonaws.com/your-bucket/song/preview/mysong.ogg&quot;,
+        &quot;animation_url_integrity&quot;: &quot;sha256-LwArA6xMdnFF3bvQjwODpeTG/RVn61weQSuoRyynA1I=&quot;,
+        &quot;animation_url_mimetype&quot;: &quot;audio/ogg&quot;,
+        &quot;properties&quot;: {
+            &quot;traits&quot;: {
+                &quot;background&quot;: &quot;red&quot;,
+                &quot;shirt_color&quot;: &quot;blue&quot;,
+                &quot;glasses&quot;: &quot;none&quot;,
+                &quot;tattoos&quot;: 4,
+            },
+            &quot;simple_property&quot;: &quot;example value&quot;,
+            &quot;rich_property&quot;: {
+                &quot;name&quot;: &quot;Name&quot;,
+                &quot;value&quot;: &quot;123&quot;,
+                &quot;display_value&quot;: &quot;123 Example Value&quot;,
+                &quot;class&quot;: &quot;emphasis&quot;,
+                &quot;css&quot;: {
+                    &quot;color&quot;: &quot;#ffffff&quot;,
+                    &quot;font-weight&quot;: &quot;bold&quot;,
+                    &quot;text-decoration&quot;: &quot;underline&quot;,
+                },
+            },
+            &quot;valid_types&quot;: {
+                &quot;string&quot;: &quot;Name&quot;,
+                &quot;int&quot;: 1,
+                &quot;float&quot;: 3.14,
+                &quot;list&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],
+            },
+            &quot;array_property&quot;: {
+                &quot;name&quot;: &quot;Name&quot;,
+                &quot;value&quot;: [1, 2, 3, 4],
+                &quot;class&quot;: &quot;emphasis&quot;,
+            },
+        },
+        &quot;extra_metadata&quot;: &quot;iHcUslDaL/jEM/oTxqEX++4CS8o3+IZp7/V5Rgchqwc=&quot;,
+        &quot;localization&quot;: {
+            &quot;uri&quot;: &quot;ipfs://QmWS1VAdMD353A6SDk9wNyvkT14kyCiZrNDYAad4w1tKqT/{locale}.json&quot;,
+            &quot;default&quot;: &quot;en&quot;,
+            &quot;locales&quot;: [&quot;en&quot;, &quot;es&quot;, &quot;fr&quot;],
+            &quot;integrity&quot;: {
+                &quot;es&quot;: &quot;sha256-T0UofLOqdamWQDLok4vy/OcetEFzD8dRLig4229138Y=&quot;,
+                &quot;fr&quot;: &quot;sha256-UUM89QQlXRlerdzVfatUzvNrEI/gwsgsN/lGkR13CKw=&quot;,
+            },
+        },
+    },
+}
+
+# Validate the data
+Asa.model_validate(data)
+</code></pre>
+<p>The extra field (<code>"arc": "arc3"</code>) is mandatory when validating a dict against the ASA model, if the <code>metadata</code> field is not None.</p>
+<p>It will be excluded from model serialization, but is needed for a <a href="https://docs.pydantic.dev/latest/concepts/unions/#discriminated-unions">discriminated union</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a7c05c9e.min.js"></script>
+      
+    
+  </body>
+</html>
