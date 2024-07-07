@@ -392,6 +392,7 @@ def test_validate_arc19_asset_url_valid(url: str) -> None:
     [
         "template-ipfs://{ipfscid:0:raw:reserve:sha2-256}/arc3.json",
         "template-ipfs://{ipfscid:v1:raw:reserve:sha2-256}",
+        "{ipfscid:0:dag-pb:reserve:sha2-256}",
         "https://example.com",
     ],
 )

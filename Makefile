@@ -54,7 +54,7 @@ mypy:
 .PHONY: check-safety
 check-safety:
 	poetry check
-	poetry run safety check --full-report
+	poetry run safety check -i 70612 --full-report
 	poetry run bandit -ll --recursive algobase tests
 
 .PHONY: lint

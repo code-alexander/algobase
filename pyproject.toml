@@ -46,6 +46,7 @@ pytest-httpx = "^0.21.3"
 pydantic-settings = "^2.1.0"
 mypy = "^1.8.0"
 returns = "^0.22.0"
+py-multiformats-cid = "^0.4.4"
 
 
 [tool.poetry.plugins."poetry.application.plugin"]

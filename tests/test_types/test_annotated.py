@@ -343,7 +343,7 @@ class TestMimeType:
     @pytest.mark.parametrize("x", ["", "img/png", "image/jpg"])
     def test_mime_type_invalid(self, subtype: MimeType | ImageMimeType, x: str) -> None:
         """Test that type raises a ValidationError when passed an invalid MIME type."""
-        ta = TypeAdapter(subtype)
+        ta = TypeAdapter(subtype)  # type: ignore
         with pytest.raises(ValidationError):
             ta.validate_python(x)
 

@@ -11,6 +11,7 @@ from algobase.choices import Arc
 from algobase.functional import maybe_apply
 from algobase.models.algod import PendingTransactionResponse
 from algobase.models.arc3 import Arc3Metadata, Arc3Properties
+from algobase.models.arc19 import Arc19Metadata
 from algobase.models.asa import Asa
 from algobase.models.asset_params import AssetParams
 
@@ -45,11 +46,35 @@ def create_metadata(
     )
 
 
-def create_asa(metadata: Arc3Metadata, cid: str) -> Asa:
+def create_metadata_arc19(
+    description: str | None = None, properties: Arc3NonTraitProperties | None = None
+) -> Arc19Metadata:
+    """Create ARC-19 metadata for an NFT.
+
+    Args:
+        description (str | None, optional): Description of the NFT. Defaults to None.
+        properties (Arc3NonTraitProperties | None, optional): Additional non-trait properties. Defaults to None.
+
+    Returns:
+        Arc19Metadata: The ARC-3 metadata.
+    """
+    return Arc19Metadata(
+        arc=Arc.ARC19,
+        arc3_metadata=Arc3Metadata(
+            arc=Arc.ARC3,
+            name="NFT",
+            decimals=0,
+            description=description,
+            properties=maybe_apply(properties, Arc3Properties.model_validate),
+        ),
+    )
+
+
+def create_asa(metadata: Arc3Metadata | Arc19Metadata, cid: str) -> Asa:
     """Creates an instance of the `Asa` model.
 
     Args:
-        metadata (Arc3Metadata): The ARC-3 metadata.
+        metadata (Arc3Metadata | Arc19Metadata): The ARC-3 or ARC-19 metadata.
         cid (str): The IPFS CID for the metadata.
 
     Returns:
