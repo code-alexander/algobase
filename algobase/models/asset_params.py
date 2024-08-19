@@ -1,5 +1,6 @@
 """A Pydantic model for Algorand Standard Asset parameters."""
 
+from base64 import b64decode
 from typing import Self
 
 from algosdk.v2client.algod import AlgodClient
@@ -81,8 +82,14 @@ class AssetParams(BaseModel):
         Returns:
             Self: The `AssetParams` instance.
         """
+        response = algod_client.asset_info(asset_id)["asset"]  # type: ignore[call-overload]
+        response["params"]["metadata-hash"] = (
+            b64decode(response["params"]["metadata-hash"])
+            if "metadata-hash" in response["params"]
+            else None
+        )
         if asset_id:
-            asset = Asset.model_validate(algod_client.asset_info(asset_id)["asset"])  # type: ignore[call-overload]
+            asset = Asset.model_validate(response)
             return cls.model_validate(asset.params.model_dump())
         return cls(
             total=10_000_000_000,
