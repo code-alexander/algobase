@@ -151,6 +151,7 @@ class TestAssetParams:
                     "default-frozen": False,
                     "freeze": "3ERES6JFBIJ7ZPNVQJNH2LETCBQWUPGTO4ROA6VFUR25WFSYKGX3WBO5GE",
                     "manager": "37XL3M57AXBUJARWMT5R7M35OERXMH3Q22JMMEFLBYNDXXADGFN625HAL4",
+                    "metadata-hash": "MWQ3NWYwNGYwZmE5NDA3MDkxOWZkZDNlY2FhMmM1ZmQ=",
                     "name": "USDC",
                     "name-b64": "VVNEQw==",
                     "reserve": "2UEQTE5QDNXPI7M3TU44G6SYKLFWLPQO7EBZM7K7MHMQQMFI4QJPLHQFHM",
