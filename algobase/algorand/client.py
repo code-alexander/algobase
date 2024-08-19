@@ -238,6 +238,6 @@ def get_algonode_config(
         ClientConfig: The client config object.
     """
     return ClientConfig(
-        url=f"https://{network}-{('idx', 'algod')[api == AlgorandApi.ALGOD]}.algonode.cloud",
+        url=f"https://{network}-{('idx', 'api')[api == AlgorandApi.ALGOD]}.algonode.cloud",
         credential="",
     )
