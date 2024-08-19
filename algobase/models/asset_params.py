@@ -1,11 +1,15 @@
 """A Pydantic model for Algorand Standard Asset parameters."""
 
+from typing import Self
+
+from algosdk.v2client.algod import AlgodClient
 from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
 )
 
+from algobase.models.algod import Asset
 from algobase.types.annotated import (
     AlgorandAddress,
     AlgorandHash,
@@ -65,3 +69,31 @@ class AssetParams(BaseModel):
         default=None,
         description="The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted.",
     )
+
+    @classmethod
+    def from_algod(cls, algod_client: AlgodClient, asset_id: Uint64) -> Self:
+        """Constructs an instance by fetching asset params from Algod.
+
+        Args:
+            algod_client (AlgodClient): The Algod client.
+            asset_id (Uint64): The asset ID to search for.
+
+        Returns:
+            Self: The `AssetParams` instance.
+        """
+        if asset_id:
+            asset = Asset.model_validate(algod_client.asset_info(asset_id))
+            return cls.model_validate(asset.params.model_dump())
+        return cls(
+            total=10_000_000_000,
+            decimals=6,
+            default_frozen=False,
+            unit_name="ALGO",
+            asset_name="ALGO",
+            url="https://www.algorand.foundation",
+            metadata_hash=None,
+            manager=None,
+            reserve=None,
+            freeze=None,
+            clawback=None,
+        )

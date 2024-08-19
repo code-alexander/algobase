@@ -481,7 +481,7 @@ class TestArc16Traits:
 class TestArc3NonTraitProperties:
     """Test the `Arc3NonTraitProperties` type."""
 
-    ta = TypeAdapter(Arc3NonTraitProperties)
+    ta = TypeAdapter(Arc3NonTraitProperties)  # type: ignore
 
     valid_dict = {
         "creator": "Tim Smith",

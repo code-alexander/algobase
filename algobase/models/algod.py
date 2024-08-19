@@ -171,8 +171,9 @@ class AssetParams(BaseModel):
         alias="metadata-hash",
         description="[am] A commitment to some unspecified asset metadata. The format of this metadata is up to the application.",
     )
-    name: str | None = Field(
+    asset_name: str | None = Field(
         None,
+        alias="name",
         description="[an] Name of this asset, as supplied by the creator. Included only when the asset name is composed of printable utf-8 characters.",
     )
     name_b64: str | None = Field(

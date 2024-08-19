@@ -360,7 +360,7 @@ def test_is_localnet_true(gen: str | None, expected: bool) -> None:
         (
             AlgorandNetwork.BETANET,
             AlgorandApi.ALGOD,
-            ClientConfig(url="https://betanet-algod.algonode.cloud", credential=""),
+            ClientConfig(url="https://betanet-api.algonode.cloud", credential=""),
         ),
         (
             AlgorandNetwork.BETANET,
@@ -370,7 +370,7 @@ def test_is_localnet_true(gen: str | None, expected: bool) -> None:
         (
             AlgorandNetwork.TESTNET,
             AlgorandApi.ALGOD,
-            ClientConfig(url="https://testnet-algod.algonode.cloud", credential=""),
+            ClientConfig(url="https://testnet-api.algonode.cloud", credential=""),
         ),
         (
             AlgorandNetwork.TESTNET,
@@ -380,7 +380,7 @@ def test_is_localnet_true(gen: str | None, expected: bool) -> None:
         (
             AlgorandNetwork.MAINNET,
             AlgorandApi.ALGOD,
-            ClientConfig(url="https://mainnet-algod.algonode.cloud", credential=""),
+            ClientConfig(url="https://mainnet-api.algonode.cloud", credential=""),
         ),
         (
             AlgorandNetwork.MAINNET,

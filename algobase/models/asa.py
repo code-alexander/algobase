@@ -65,7 +65,7 @@ class Asa(BaseModel):
             case _:
                 return None
 
-    @computed_field  # type: ignore[misc]
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def metadata_hash(self) -> AlgorandHash | None:
         """The hash of the JSON metadata."""
