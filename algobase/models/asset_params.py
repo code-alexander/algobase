@@ -82,7 +82,7 @@ class AssetParams(BaseModel):
             Self: The `AssetParams` instance.
         """
         if asset_id:
-            asset = Asset.model_validate(algod_client.asset_info(asset_id))
+            asset = Asset.model_validate(algod_client.asset_info(asset_id)["asset"])  # type: ignore[call-overload]
             return cls.model_validate(asset.params.model_dump())
         return cls(
             total=10_000_000_000,
