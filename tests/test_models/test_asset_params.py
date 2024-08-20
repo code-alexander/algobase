@@ -170,6 +170,30 @@ class TestAssetParams:
         assert asset_params.asset_name == "USDC"
         assert asset_params.decimals == 6
 
+        algod_client.asset_info = lambda _: {
+            "index": 31566704,
+            "params": {
+                "creator": "2UEQTE5QDNXPI7M3TU44G6SYKLFWLPQO7EBZM7K7MHMQQMFI4QJPLHQFHM",
+                "decimals": 6,
+                "default-frozen": False,
+                "freeze": "3ERES6JFBIJ7ZPNVQJNH2LETCBQWUPGTO4ROA6VFUR25WFSYKGX3WBO5GE",
+                "manager": "37XL3M57AXBUJARWMT5R7M35OERXMH3Q22JMMEFLBYNDXXADGFN625HAL4",
+                "name": "USDC",
+                "name-b64": "VVNEQw==",
+                "reserve": "2UEQTE5QDNXPI7M3TU44G6SYKLFWLPQO7EBZM7K7MHMQQMFI4QJPLHQFHM",
+                "total": 18446744073709551615,
+                "unit-name": "USDC",
+                "unit-name-b64": "VVNEQw==",
+                "url": "https://www.centre.io/usdc",
+                "url-b64": "aHR0cHM6Ly93d3cuY2VudHJlLmlvL3VzZGM=",
+            },
+        }
+        asset_params = AssetParams.from_algod(algod_client, 31566704)  # type: ignore[arg-type]
+
+        assert asset_params.unit_name == "USDC"
+        assert asset_params.asset_name == "USDC"
+        assert asset_params.decimals == 6
+
         asset_params = AssetParams.from_algod(algod_client, 0)  # type: ignore[arg-type]
 
         assert asset_params.unit_name == "ALGO"
