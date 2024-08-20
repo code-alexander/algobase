@@ -83,13 +83,14 @@ class AssetParams(BaseModel):
             Self: The `AssetParams` instance.
         """
         if asset_id:
-            response = algod_client.asset_info(asset_id)["asset"]  # type: ignore[call-overload]
-            response["params"]["metadata-hash"] = (
-                b64decode(response["params"]["metadata-hash"])
-                if "metadata-hash" in response["params"]
+            response = algod_client.asset_info(asset_id)
+            data = response.get("asset", response)  # type: ignore[union-attr]
+            data["params"]["metadata-hash"] = (
+                b64decode(data["params"]["metadata-hash"])
+                if "metadata-hash" in data["params"]
                 else None
             )
-            asset = Asset.model_validate(response)
+            asset = Asset.model_validate(data)
             return cls.model_validate(asset.params.model_dump())
         return cls(
             total=10_000_000_000,
